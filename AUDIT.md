@@ -484,6 +484,8 @@ Canva is connected but the commit history shows no evidence of exported assets f
 | 2026-06-07 | spinbookdj | `add_missing_fk_indexes` | Added 16 missing FK indexes: booking_reviews, client_intake_forms, client_magic_link_requests (×2), dj_messages (×2), dj_referrals, dj_venue_history, notifications (×3), sms_notifications, support_ticket_messages, support_tickets, venue_photos, venues. |
 | 2026-06-07 | 130-mode | `fix_auth_rls_initplan` | Wrapped `auth.uid()` in `(SELECT auth.uid())` across 20 RLS policies — eliminates per-row re-evaluation of the session token on download_logs, orders, purchases, profiles, albums, bandcamp_vip_entitlements, catalog_categories, catalog_category_aliases, customer_risk_events, discography_entries, product_category_assignments, product_splits, products. |
 | 2026-06-07 | spinbookdj | `fix_auth_rls_initplan` | Same fix across 28 RLS policies — client_profiles, dj_profiles, dj_availability, dj_equipment, dj_event_types, dj_genres, dj_messages, dj_mixes, dj_referrals, dj_socials, dj_venue_history, booking_reviews, client_intake_forms, notifications, sms_notifications, bookings, contracts, negotiation_messages, price_offers, help_articles, analytics_events. |
+| 2026-06-07 | 130-mode | `fix_auth_rls_initplan_remaining_130mode` | Fixed remaining 23 policies where WITH CHECK or USING still had bare `auth.uid()` — album_category_assignments, catalog_categories, catalog_category_aliases, customer_risk_events, discography_entries, product_category_assignments, product_splits (×4), profiles (×2), site_content, split_transfers (×4), subscribers, vip_download_attempts (×3), vip_download_sessions (×4). auth_rls_initplan count: 24 → 1 (1 remaining is in a function/view cache). |
+| 2026-06-07 | spinbookdj | `fix_auth_rls_initplan_remaining_spinbookdj` | Fixed remaining 21 policies — booking_reviews, dj_messages, dj_profiles, support_ticket_messages (×2), support_tickets (×2), user_2fa, user_accounts (×3), venue_intel (×4), venue_photos (×3), venues (×3). auth_rls_initplan count: 21 → 0. Fully resolved. |
 
 ---
 
@@ -506,7 +508,7 @@ Canva is connected but the commit history shows no evidence of exported assets f
 ### ✅ Fixed 2026-06-07 (sprint items)
 
 6. ~~Add missing indexes on FK columns~~ — DONE (17 indexes added)
-7. ~~Fix `auth_rls_initplan`~~ — DONE (48 policies fixed across both DBs)
+7. ~~Fix `auth_rls_initplan`~~ — DONE (48 + 44 more = 92 policies fixed across both DBs; SpinbookDJ now 0, 130-mode 1 remaining in advisor cache)
 
 ### Requires dashboard access (cannot fix via MCP)
 
