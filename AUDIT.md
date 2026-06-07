@@ -480,6 +480,10 @@ Canva is connected but the commit history shows no evidence of exported assets f
 | 2026-06-07 | spinbookdj | `fix_security_definer_views` | Converted `venue_stats`, `dj_analytics_summary`, `admin_platform_stats` from SECURITY DEFINER to SECURITY INVOKER. RLS now applies correctly through these views. |
 | 2026-06-07 | spinbookdj | `explicit_deny_internal_tables` | Added explicit `USING (false)` denial policies to `contract_templates`, `email_sends`, `processed_webhook_events`, `public_submission_idempotency`. |
 | 2026-06-07 | spinbookdj | `revoke_anon_admin_functions_v2` | Revoked anon EXECUTE on `is_admin`, `get_user_role`, `handle_new_auth_user` (also from authenticated), `link_client_to_intake`, `auto_block_availability_on_booking`, `dj_has_intel_access`, `get_my_analytics`, `track_event`. Fixed mutable search_path on 9 functions. |
+| 2026-06-07 | 130-mode | `add_missing_fk_indexes` | Added `idx_albums_primary_product_id` — the one unindexed FK. |
+| 2026-06-07 | spinbookdj | `add_missing_fk_indexes` | Added 16 missing FK indexes: booking_reviews, client_intake_forms, client_magic_link_requests (×2), dj_messages (×2), dj_referrals, dj_venue_history, notifications (×3), sms_notifications, support_ticket_messages, support_tickets, venue_photos, venues. |
+| 2026-06-07 | 130-mode | `fix_auth_rls_initplan` | Wrapped `auth.uid()` in `(SELECT auth.uid())` across 20 RLS policies — eliminates per-row re-evaluation of the session token on download_logs, orders, purchases, profiles, albums, bandcamp_vip_entitlements, catalog_categories, catalog_category_aliases, customer_risk_events, discography_entries, product_category_assignments, product_splits, products. |
+| 2026-06-07 | spinbookdj | `fix_auth_rls_initplan` | Same fix across 28 RLS policies — client_profiles, dj_profiles, dj_availability, dj_equipment, dj_event_types, dj_genres, dj_messages, dj_mixes, dj_referrals, dj_socials, dj_venue_history, booking_reviews, client_intake_forms, notifications, sms_notifications, bookings, contracts, negotiation_messages, price_offers, help_articles, analytics_events. |
 
 ---
 
@@ -499,21 +503,31 @@ Canva is connected but the commit history shows no evidence of exported assets f
 - **Fix double-deploy pipeline** — Vercel Dashboard → 130-mode-v3-parallel → Git Integration → disconnect GitHub integration (let Codex own deploys exclusively)
 - **Verify sondex-fm production** — confirm repaired code is promoted to production target, not just preview
 
-### Fix this sprint (stability / reliability)
+### ✅ Fixed 2026-06-07 (sprint items)
 
-6. Add missing indexes on 20 unindexed foreign keys (spinbookdj: 16, 130-mode: 4) — use `CREATE INDEX CONCURRENTLY`
-7. Fix `auth_rls_initplan` on highest-traffic tables (wrap `auth.uid()` in `SELECT`)
-8. Review storage bucket SELECT policies before removing — requires app code audit to confirm `.list()` usage
-9. Fix `multiple_permissive_policies` (79 in 130-mode, 55 in spinbookdj)
+6. ~~Add missing indexes on FK columns~~ — DONE (17 indexes added)
+7. ~~Fix `auth_rls_initplan`~~ — DONE (48 policies fixed across both DBs)
 
-### Fix this month (tech debt / resilience)
+### Requires dashboard access (cannot fix via MCP)
 
-10. Add React Error Boundaries to all apps
-11. Add Sentry to 130-mode and spinbookdj
-12. Add `not-found.tsx` to all Next.js projects
-13. Audit all Supabase queries for unchecked `error` returns
-14. Remove 90 unused indexes across both DBs
-15. Investigate Crate Widow colocation in 130-mode DB — consider migrating to own Supabase project
+- **Enable leaked password protection** — Supabase Dashboard → Auth → Password Security → enable on BOTH projects (30 seconds each)
+- **Fix double-deploy pipeline** — Vercel Dashboard → 130-mode-v3-parallel → Settings → Git → disconnect GitHub integration
+- **Verify sondex-fm production** — check which deployment URL is live, promote repaired build if needed
+
+### Requires app repo access (needs `modeos130` repos added to session)
+
+- **Storage bucket listing** — remove SELECT listing from `ai-generated`, `dj-avatars`, `dj-heroes`, `dj-mix-covers` after confirming `.list()` is not used in app code
+- **React Error Boundaries** — add to all Next.js apps (prevents blank-page crashes)
+- **Sentry** — add to 130-mode and spinbookdj (currently zero production error visibility)
+- **`not-found.tsx`** — add custom 404 to all apps
+- **Supabase query error auditing** — scan all `.from()` calls for unchecked `error` returns
+- **`multiple_permissive_policies`** — 79 in 130-mode, 55 in spinbookdj; needs policy structure review in code context before merging
+
+### Fix this month (tech debt)
+
+- Remove genuinely unused indexes (needs traffic data — too early to drop on young app)
+- Investigate Crate Widow colocation in 130-mode DB — consider migrating to own Supabase project
+- Commit signing — configure GPG on Codex deploys
 
 ---
 
