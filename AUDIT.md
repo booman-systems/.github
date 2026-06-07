@@ -471,33 +471,49 @@ Canva is connected but the commit history shows no evidence of exported assets f
 
 ---
 
+## MIGRATIONS APPLIED
+
+| Date | DB | Migration Name | What It Did |
+|------|----|---------------|-------------|
+| 2026-06-07 | 130-mode | `revoke_anon_payment_functions` | Revoked anon EXECUTE on `crate_widow_record_paid_checkout`, `crate_widow_get_active_fulfillment_grant`, `crate_widow_record_download_attempt`, `ensure_profile_for_auth_user`, `protect_profile_entitlement_fields`. Fixed mutable search_path on `crate_widow_touch_updated_at`. |
+| 2026-06-07 | 130-mode | `explicit_deny_internal_tables` | Added explicit `USING (false)` denial policies to 7 policy-less internal tables. Behavior unchanged (already denied), intent now documented. |
+| 2026-06-07 | spinbookdj | `fix_security_definer_views` | Converted `venue_stats`, `dj_analytics_summary`, `admin_platform_stats` from SECURITY DEFINER to SECURITY INVOKER. RLS now applies correctly through these views. |
+| 2026-06-07 | spinbookdj | `explicit_deny_internal_tables` | Added explicit `USING (false)` denial policies to `contract_templates`, `email_sends`, `processed_webhook_events`, `public_submission_idempotency`. |
+| 2026-06-07 | spinbookdj | `revoke_anon_admin_functions_v2` | Revoked anon EXECUTE on `is_admin`, `get_user_role`, `handle_new_auth_user` (also from authenticated), `link_client_to_intake`, `auto_block_availability_on_booking`, `dj_has_intel_access`, `get_my_analytics`, `track_event`. Fixed mutable search_path on 9 functions. |
+
+---
+
 ## PRIORITY ACTION LIST
 
-### Fix this week (security / revenue at risk)
+### ✅ Fixed 2026-06-07
 
-1. **Revoke anon EXECUTE on Crate Widow payment functions** (130-mode) — fake payment record injection risk
-2. **Rebuild 3 SECURITY DEFINER views with SECURITY INVOKER** (spinbookdj) — cross-DJ data leak
-3. **Revoke anon EXECUTE on `is_admin`, `get_user_role`, `handle_new_auth_user`, `link_client_to_intake`** (spinbookdj)
-4. **Add policies to 11 policy-less RLS tables** (both DBs)
-5. **Enable leaked password protection** (both DBs — 2-click fix in dashboard)
+1. ~~**Revoke anon EXECUTE on Crate Widow payment functions** (130-mode)~~ — DONE
+2. ~~**Rebuild 3 SECURITY DEFINER views with SECURITY INVOKER** (spinbookdj)~~ — DONE
+3. ~~**Revoke anon EXECUTE on `is_admin`, `get_user_role`, `handle_new_auth_user`, `link_client_to_intake`** (spinbookdj)~~ — DONE
+4. ~~**Add policies to 11 policy-less RLS tables** (both DBs)~~ — DONE (explicit deny)
+5. ~~**Fix mutable search_path on 10 functions** (both DBs)~~ — DONE
+
+### Requires dashboard access (cannot fix via MCP)
+
+- **Enable leaked password protection** — Supabase Dashboard → Auth → Password Security → enable on BOTH projects
+- **Fix double-deploy pipeline** — Vercel Dashboard → 130-mode-v3-parallel → Git Integration → disconnect GitHub integration (let Codex own deploys exclusively)
+- **Verify sondex-fm production** — confirm repaired code is promoted to production target, not just preview
 
 ### Fix this sprint (stability / reliability)
 
-6. Fix double-deploy pipeline for 130-mode-v3-parallel
-7. Add missing indexes on 20 unindexed foreign keys (spinbookdj has 16, 130-mode has 4)
-8. Fix `auth_rls_initplan` on highest-traffic tables (add `SELECT` wrapper to `auth.uid()` calls)
-9. Remove 4 public bucket listing policies (storage)
-10. Verify sondex-fm production deployment is actually serving repaired code
+6. Add missing indexes on 20 unindexed foreign keys (spinbookdj: 16, 130-mode: 4) — use `CREATE INDEX CONCURRENTLY`
+7. Fix `auth_rls_initplan` on highest-traffic tables (wrap `auth.uid()` in `SELECT`)
+8. Review storage bucket SELECT policies before removing — requires app code audit to confirm `.list()` usage
+9. Fix `multiple_permissive_policies` (79 in 130-mode, 55 in spinbookdj)
 
 ### Fix this month (tech debt / resilience)
 
-11. Add React Error Boundaries to all apps
-12. Add Sentry to 130-mode and spinbookdj
-13. Add `not-found.tsx` to all Next.js projects
-14. Audit all Supabase queries for unchecked `error` returns
-15. Fix `multiple_permissive_policies` (79 in 130-mode, 55 in spinbookdj)
-16. Remove 90 unused indexes across both DBs
-17. Investigate Crate Widow colocation in 130-mode DB
+10. Add React Error Boundaries to all apps
+11. Add Sentry to 130-mode and spinbookdj
+12. Add `not-found.tsx` to all Next.js projects
+13. Audit all Supabase queries for unchecked `error` returns
+14. Remove 90 unused indexes across both DBs
+15. Investigate Crate Widow colocation in 130-mode DB — consider migrating to own Supabase project
 
 ---
 

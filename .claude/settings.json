@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__list_organizations",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__list_projects",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__get_advisors",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__list_tables",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__get_logs",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__execute_sql",
+      "mcp__2b18f8cd-8b0d-4e61-8f72-174bba5e8c53__apply_migration",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__list_teams",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__list_projects",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__list_deployments",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__get_deployment",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__get_runtime_logs",
+      "mcp__9b3de765-7402-400d-a347-6cc8b390d294__get_deployment_build_logs",
+      "mcp__github__search_repositories",
+      "mcp__github__list_branches",
+      "mcp__github__list_commits",
+      "mcp__github__get_file_contents",
+      "mcp__github__list_issues",
+      "mcp__github__list_pull_requests",
+      "mcp__github__actions_list",
+      "mcp__github__get_me"
+    ]
+  }
+}
