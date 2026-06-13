@@ -8,7 +8,8 @@ shows a metric-by-metric breakdown, and tells them exactly what to improve to cl
 
 ## What it does
 
-1. **Inputs:** position, height, weight, speed (40-yd dash *or* 100m time), and optional bench/squat.
+1. **Inputs:** position, region (for the school list), height, weight, speed (40-yd dash *or* 100m time), and optional bench/squat.
+   - **Kicker/Punter** swaps in its own inputs — longest FG, kickoff depth, punt gross average, hang time — and is scored against derived K/P tiers (anchored to the published D1 marks: 50+ yd FG, kickoffs into the end zone, 40+ yd / 4.5s+ hang punts).
 2. **100m → 40 conversion:** if a 100m time is entered, it's converted to a 40-yd estimate
    using the published reference chart (10.3s → 4.23, … 11.8s → 4.81, interpolated).
 3. **Tier projection:** each measurable is compared to position benchmarks across 4 tiers, then
@@ -28,20 +29,22 @@ Benchmarks are transcribed from published position-by-position recruiting refere
 (height / weight / 40-yd / bench / squat per tier, for QB, RB, WR, TE, OL, DL, LB, DB).
 All data lives in the `POS`, `TIERS`, and `CONV` structures at the top of the inline script.
 
-## Named-schools phase (extension point)
+## Named schools
 
-V1 recommends a **tier**, not individual programs. The code is structured to plug a real
-named-school dataset in later — see the `SCHOOLS` object in `index.html`:
+The results screen lists **real programs** for the projected tier, via the `SCHOOLS` map in
+`index.html` (keyed by tier, each entry tagged with conference + region):
 
 ```js
 const SCHOOLS = {
-  P5:  [{ name:'Example State', conf:'SEC' }, ...],
+  P5:  [{ name:'Alabama', conf:'SEC', r:'SE' }, ...],
   G5:  [...], D2H: [...], D3: [...]
 };
 ```
 
-Populate it (optionally key by position/region/academic fit) and the results screen
-automatically lists real programs in place of the tier-level guidance placeholder.
+Picking a **region** (Northeast / Southeast / Midwest / South Central / West) surfaces
+that region's programs first, then fills with others at the tier. The list is a curated,
+representative sample (current to the 2025–26 season) — extend it freely; the UI renders
+whatever is in the map. Verify a program's current division/conference before outreach.
 
 ## Deploying
 
