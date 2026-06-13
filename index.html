@@ -13,53 +13,47 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{
-    background:var(--bg); color:var(--ink);
+  body{background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.5; -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:960px;margin:0 auto;padding:28px 18px 80px}
-  header.hero{text-align:center;padding:18px 0 10px}
-  .hero h1{
-    font-size:clamp(30px,7vw,52px); margin:0; letter-spacing:1px; line-height:1.02;
-    font-weight:800; text-transform:uppercase;
-  }
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:22px 18px 90px}
+  header.hero{text-align:center;padding:8px 0 4px}
+  .hero h1{font-size:clamp(26px,6vw,44px);margin:0;letter-spacing:1px;line-height:1.02;font-weight:800;text-transform:uppercase}
   .hero h1 .arrow{color:var(--gold)}
-  .hero .sub{color:var(--muted);text-transform:uppercase;letter-spacing:3px;font-size:12px;margin-top:10px}
-  .hero .tag{color:var(--gold);font-weight:700;margin-top:14px;font-size:15px}
+  .hero .sub{color:var(--muted);text-transform:uppercase;letter-spacing:3px;font-size:11px;margin-top:8px}
+
+  /* nav */
+  nav.tabs{position:sticky;top:0;z-index:30;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
+    background:rgba(11,11,12,.92);backdrop-filter:blur(8px);padding:12px 6px;margin:14px -18px 0;border-bottom:1px solid var(--line)}
+  nav.tabs button{background:transparent;border:1px solid transparent;color:var(--muted);padding:9px 16px;border-radius:9px;
+    font-size:13px;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;font-weight:700}
+  nav.tabs button.active{color:#161616;background:var(--gold)}
+  nav.tabs button:hover:not(.active){color:var(--ink);border-color:var(--line)}
+
+  .view{display:none}
+  .view.active{display:block}
 
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:22px}
   .card h2{margin:0 0 4px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
   .card .hint{color:var(--muted);font-size:13px;margin:0 0 16px}
+  h3.sec{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
   label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-  input,select{
-    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
-    border-radius:9px;padding:11px 12px;font-size:15px;outline:none;
-  }
-  input:focus,select:focus{border-color:var(--gold-dim)}
+  input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:11px 12px;font-size:15px;outline:none;font-family:inherit}
+  input:focus,select:focus,textarea:focus{border-color:var(--gold-dim)}
   .twin{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .seg{display:flex;gap:6px;margin-bottom:8px}
-  .seg button{
-    flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--muted);
-    padding:8px;border-radius:8px;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px
-  }
+  .seg button{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:8px;border-radius:8px;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px}
   .seg button.active{background:var(--gold);color:#1a1a1a;border-color:var(--gold);font-weight:700}
   .optnote{color:var(--muted);font-size:11px;margin-top:4px}
   .hidden{display:none !important}
 
-  .cta{
-    margin-top:20px;width:100%;background:var(--gold);color:#161616;border:none;
-    padding:15px;border-radius:10px;font-size:16px;font-weight:800;letter-spacing:1px;
-    text-transform:uppercase;cursor:pointer
-  }
+  .cta{margin-top:20px;width:100%;background:var(--gold);color:#161616;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
   .cta:hover{background:var(--gold-dim)}
+  .cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold-dim)}
 
-  /* results */
-  #results{display:none}
-  .verdict{text-align:center;padding:26px 18px;border-radius:14px;border:1px solid var(--line);
-    background:linear-gradient(180deg,#1a1a1d,#121214)}
+  .verdict{text-align:center;padding:26px 18px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,#1a1a1d,#121214)}
   .verdict .lvl{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
   .verdict .tier{font-size:clamp(26px,6vw,40px);font-weight:800;margin:8px 0 4px;text-transform:uppercase}
   .verdict .desc{color:var(--muted);font-size:14px;max-width:560px;margin:6px auto 0}
@@ -77,25 +71,84 @@
   .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .pill{background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:6px 13px;font-size:13px}
   .pill b{color:var(--gold)}
+  .gap-list{margin:0;padding-left:18px;font-size:14px}
+  .gap-list li{margin:5px 0}.gap-list .ok{color:var(--good)}.gap-list .need{color:var(--warn)}
 
-  .next h3,.traits h3,.schools h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
-  .gap-list{margin:0;padding-left:18px;color:var(--ink);font-size:14px}
-  .gap-list li{margin:5px 0}
-  .gap-list .ok{color:var(--good)}
-  .gap-list .need{color:var(--warn)}
+  .sch{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14px}
+  .sch:last-child{border-bottom:none}
+  .sch .meta{color:var(--muted);font-size:12px;text-align:right;white-space:nowrap}
+  .sch .reg{display:inline-block;margin-left:8px;font-size:10px;letter-spacing:.5px;color:var(--gold);border:1px solid var(--line);border-radius:5px;padding:2px 6px}
+  .placeholder{background:var(--panel2);border:1px dashed var(--line);border-radius:10px;padding:16px;color:var(--muted);font-size:13px}
 
-  .schools .placeholder{background:var(--panel2);border:1px dashed var(--line);border-radius:10px;padding:16px;color:var(--muted);font-size:13px}
-  .schools .schhead{color:var(--muted);font-size:12px;margin:0 0 10px}
-  .schools .sch{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14px}
-  .schools .sch:last-child{border-bottom:none}
-  .schools .sch .meta{color:var(--muted);font-size:12px;text-align:right;white-space:nowrap}
-  .schools .sch .reg{display:inline-block;margin-left:8px;font-size:10px;letter-spacing:.5px;color:var(--gold);border:1px solid var(--line);border-radius:5px;padding:2px 6px}
+  /* profile card */
+  .pcard{background:linear-gradient(180deg,#15171b,#0f1013);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .pcard .banner{height:74px;background:linear-gradient(110deg,#2a2a12,#1a1a1d)}
+  .pcard .body{padding:0 18px 18px;margin-top:-34px}
+  .pcard .avatar{width:72px;height:72px;border-radius:50%;background:#222 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6Z"/></svg>') center/60% no-repeat;border:3px solid #0f1013}
+  .pcard .nm{font-size:22px;font-weight:800;margin-top:8px}
+  .pcard .handle{color:var(--muted);font-size:14px}
+  .pcard .biotxt{margin:12px 0;font-size:15px;line-height:1.6}
+  .pcard .biotxt b{color:var(--gold)}
+  .pcard .loc{color:var(--muted);font-size:13px;display:flex;gap:14px;flex-wrap:wrap}
+  .pcard .loc a{color:var(--gold);text-decoration:none}
+  .copyrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .copyrow button{flex:1;min-width:160px}
+  .checklist{list-style:none;margin:10px 0 0;padding:0}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .checklist li:last-child{border-bottom:none}
+  .checklist .ic{flex:0 0 20px;font-weight:800}
+  .checklist .done .ic{color:var(--good)}.checklist .todo .ic{color:var(--warn)}.checklist .tip .ic{color:var(--muted)}
 
-  .footer-note{color:var(--muted);font-size:12px;margin-top:24px;text-align:center;line-height:1.7}
+  /* education */
+  .educard h4{margin:14px 0 4px;color:var(--ink);font-size:15px}
+  .edu-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .edu-item:last-child{border-bottom:none}
+  .edu-item .k{flex:0 0 26px;font-size:20px}
+  .edu-item .t b{color:var(--ink)}.edu-item .t span{color:var(--muted);font-size:13px}
+  .cal{display:grid;gap:8px}
+  .cal .row{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);font-size:14px}
+  .cal .row .d{color:var(--gold);font-weight:700;font-size:13px}
+  .cal .tag{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-bottom:4px}
+  .tag-dead{background:rgba(224,84,74,.18);color:#e0544a}
+  .tag-quiet{background:rgba(158,197,212,.18);color:#9ec5d4}
+  .tag-eval{background:rgba(62,207,142,.16);color:#3ecf8e}
+  .tag-go{background:rgba(232,194,82,.18);color:#e8c252}
+
+  /* pricing */
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:8px}
+  .tier{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--panel);display:flex;flex-direction:column}
+  .tier.feat{border-color:var(--gold-dim);box-shadow:0 0 0 1px var(--gold-dim) inset}
+  .tier .nm{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800}
+  .tier .price{font-size:34px;font-weight:800;margin:8px 0 0}.tier .price small{font-size:14px;color:var(--muted);font-weight:600}
+  .tier .tagline{color:var(--muted);font-size:13px;margin:4px 0 14px}
+  .tier ul{list-style:none;margin:0 0 16px;padding:0;font-size:14px;flex:1}
+  .tier ul li{padding:6px 0;display:flex;gap:9px}
+  .tier ul li::before{content:'✓';color:var(--good);font-weight:800}
+  .tier ul li.lock::before{content:'🔒';}
+  .tier ul li.lock{color:var(--muted)}
+  .tier button{width:100%;border:none;border-radius:9px;padding:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;cursor:pointer}
+  .tier .pick{background:var(--panel2);color:var(--ink);border:1px solid var(--line)!important}
+  .tier.feat .pick{background:var(--gold);color:#161616}
+  .soon{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+
+  /* mock outreach modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:18px}
+  .modal.open{display:flex}
+  .modal .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:22px;position:relative}
+  .modal .box h3{margin:0 0 4px;color:var(--gold);font-size:15px;letter-spacing:1px;text-transform:uppercase}
+  .modal .x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+  .draft{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;white-space:pre-wrap;margin-top:10px;color:var(--ink)}
+  .lockbar{margin-top:16px;background:rgba(232,194,82,.10);border:1px solid var(--gold-dim);border-radius:10px;padding:14px;text-align:center;font-size:14px}
+  .lockbar b{color:var(--gold)}
+  .coachrow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line);font-size:14px}
+  .coachrow:last-child{border-bottom:none}.coachrow .h{color:var(--gold);font-size:12px}
+
+  .footer-note{color:var(--muted);font-size:12px;margin-top:26px;text-align:center;line-height:1.7}
   .factors{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
   .factors span{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 9px;letter-spacing:.5px}
-  .disclaimer{font-size:11px;color:#6b6b70;margin-top:18px;text-align:center;max-width:660px;margin-left:auto;margin-right:auto}
+  .disclaimer{font-size:11px;color:#6b6b70;margin-top:18px;text-align:center;max-width:680px;margin-left:auto;margin-right:auto}
   .err{color:var(--bad);font-size:13px;margin-top:10px;display:none}
+  .saveflash{color:var(--good);font-size:13px;margin-top:10px;display:none}
 </style>
 </head>
 <body>
@@ -103,461 +156,431 @@
 
   <header class="hero">
     <h1>Gridiron <span class="arrow">Match</span></h1>
-    <div class="sub">Football Recruiting Profile Engine</div>
-    <div class="tag">Enter your measurables &nbsp;→&nbsp; find the level &amp; schools you project to</div>
+    <div class="sub">Football Recruiting Platform</div>
   </header>
 
-  <!-- INPUT -->
-  <section class="card" id="inputCard">
-    <h2>Your Combine Measurables</h2>
-    <p class="hint">Pick your position, drop in your numbers, and we’ll project the recruiting tier you currently profile for, name target schools, and show exactly what to improve to climb.</p>
+  <nav class="tabs" id="tabs">
+    <button data-view="analyze" class="active">Analyze</button>
+    <button data-view="profile">My Profile</button>
+    <button data-view="playbook">Playbook</button>
+    <button data-view="pricing">Pricing</button>
+  </nav>
 
-    <div class="grid">
-      <div>
-        <label for="pos">Position</label>
-        <select id="pos">
-          <option value="QB">Quarterback (QB)</option>
-          <option value="RB">Running Back (RB)</option>
-          <option value="WR">Wide Receiver (WR)</option>
-          <option value="TE">Tight End (TE)</option>
-          <option value="OL">Offensive Line (OL)</option>
-          <option value="DL">Defensive Line (DL)</option>
-          <option value="LB">Linebacker (LB)</option>
-          <option value="DB">Defensive Back (DB)</option>
-          <option value="KP">Kicker / Punter (K/P)</option>
-        </select>
-      </div>
-      <div>
-        <label for="region">Region (for school list)</label>
-        <select id="region">
-          <option value="Any">Any region</option>
-          <option value="NE">Northeast</option>
-          <option value="SE">Southeast</option>
-          <option value="MW">Midwest</option>
-          <option value="SC">South Central</option>
-          <option value="W">West</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- standard position fields -->
-    <div id="stdFields" class="grid" style="margin-top:14px">
-      <div>
-        <label>Height</label>
-        <div class="twin">
-          <input id="ft" type="number" inputmode="numeric" placeholder="ft" min="4" max="7" />
-          <input id="in" type="number" inputmode="numeric" placeholder="in" min="0" max="11" />
-        </div>
-      </div>
-      <div>
-        <label for="wt">Weight (lbs)</label>
-        <input id="wt" type="number" inputmode="numeric" placeholder="e.g. 195" />
-      </div>
-      <div>
-        <label>Speed</label>
-        <div class="seg" id="speedToggle">
-          <button type="button" data-mode="forty" class="active">40-yd dash</button>
-          <button type="button" data-mode="hundred">100m time</button>
-        </div>
-        <input id="speed" type="number" step="0.01" inputmode="decimal" placeholder="e.g. 4.55" />
-        <div class="optnote" id="speedNote">Enter your hand/laser 40 time in seconds.</div>
-      </div>
-      <div>
-        <label for="bench">Bench Press (lbs) <span style="text-transform:none">— optional</span></label>
-        <input id="bench" type="number" inputmode="numeric" placeholder="e.g. 275" />
-      </div>
-      <div>
-        <label for="squat">Squat (lbs) <span style="text-transform:none">— optional</span></label>
-        <input id="squat" type="number" inputmode="numeric" placeholder="e.g. 405" />
-      </div>
-    </div>
-
-    <!-- kicker / punter fields -->
-    <div id="kpFields" class="hidden" style="margin-top:14px">
+  <!-- ============ ANALYZE ============ -->
+  <section class="view active" data-view="analyze">
+    <div class="card" id="inputCard">
+      <h2>Your Combine Measurables</h2>
+      <p class="hint">Pick your position, drop in your numbers, and we’ll project the recruiting tier you profile for, name target schools, and show what to improve to climb.</p>
       <div class="grid">
-        <div style="grid-column:1/-1">
-          <label>Specialist type</label>
-          <div class="seg" id="kpToggle">
-            <button type="button" data-kp="K" class="active">Kicker</button>
-            <button type="button" data-kp="P">Punter</button>
-            <button type="button" data-kp="KP">Both</button>
-          </div>
-        </div>
-        <div class="kp-kick">
-          <label for="fgLong">Longest field goal (yds)</label>
-          <input id="fgLong" type="number" inputmode="numeric" placeholder="e.g. 52" />
-        </div>
-        <div class="kp-kick">
-          <label for="kickoff">Kickoff depth</label>
-          <select id="kickoff">
-            <option value="">—</option>
-            <option value="3">Reaches end zone (touchbacks)</option>
-            <option value="2">5–10 yard line</option>
-            <option value="1">Short of the 10</option>
+        <div>
+          <label for="pos">Position</label>
+          <select id="pos">
+            <option value="QB">Quarterback (QB)</option><option value="RB">Running Back (RB)</option>
+            <option value="WR">Wide Receiver (WR)</option><option value="TE">Tight End (TE)</option>
+            <option value="OL">Offensive Line (OL)</option><option value="DL">Defensive Line (DL)</option>
+            <option value="LB">Linebacker (LB)</option><option value="DB">Defensive Back (DB)</option>
+            <option value="KP">Kicker / Punter (K/P)</option>
           </select>
         </div>
-        <div class="kp-punt">
-          <label for="puntAvg">Punt gross average (yds)</label>
-          <input id="puntAvg" type="number" inputmode="decimal" step="0.1" placeholder="e.g. 42" />
-        </div>
-        <div class="kp-punt">
-          <label for="hang">Punt hang time (sec)</label>
-          <input id="hang" type="number" inputmode="decimal" step="0.1" placeholder="e.g. 4.5" />
+        <div>
+          <label for="region">Region (for school list)</label>
+          <select id="region">
+            <option value="Any">Any region</option><option value="NE">Northeast</option><option value="SE">Southeast</option>
+            <option value="MW">Midwest</option><option value="SC">South Central</option><option value="W">West</option>
+          </select>
         </div>
       </div>
-      <p class="optnote">K/P benchmarks extend the published D1 marks (50+ yd FG, kickoffs into the end zone, 40+ yd / 4.5s+ hang punts) across the lower tiers. Consistency and leg strength are what coaches verify at camps.</p>
+      <div id="stdFields" class="grid" style="margin-top:14px">
+        <div><label>Height</label><div class="twin"><input id="ft" type="number" placeholder="ft" min="4" max="7"><input id="in" type="number" placeholder="in" min="0" max="11"></div></div>
+        <div><label for="wt">Weight (lbs)</label><input id="wt" type="number" placeholder="e.g. 195"></div>
+        <div><label>Speed</label>
+          <div class="seg" id="speedToggle"><button type="button" data-mode="forty" class="active">40-yd dash</button><button type="button" data-mode="hundred">100m time</button></div>
+          <input id="speed" type="number" step="0.01" placeholder="e.g. 4.55"><div class="optnote" id="speedNote">Enter your hand/laser 40 time in seconds.</div>
+        </div>
+        <div><label for="bench">Bench (lbs) — optional</label><input id="bench" type="number" placeholder="e.g. 275"></div>
+        <div><label for="squat">Squat (lbs) — optional</label><input id="squat" type="number" placeholder="e.g. 405"></div>
+      </div>
+      <div id="kpFields" class="hidden" style="margin-top:14px">
+        <div class="grid">
+          <div style="grid-column:1/-1"><label>Specialist type</label>
+            <div class="seg" id="kpToggle"><button type="button" data-kp="K" class="active">Kicker</button><button type="button" data-kp="P">Punter</button><button type="button" data-kp="KP">Both</button></div></div>
+          <div class="kp-kick"><label for="fgLong">Longest FG (yds)</label><input id="fgLong" type="number" placeholder="e.g. 52"></div>
+          <div class="kp-kick"><label for="kickoff">Kickoff depth</label><select id="kickoff"><option value="">—</option><option value="3">Reaches end zone</option><option value="2">5–10 yard line</option><option value="1">Short of the 10</option></select></div>
+          <div class="kp-punt"><label for="puntAvg">Punt avg (yds)</label><input id="puntAvg" type="number" step="0.1" placeholder="e.g. 42"></div>
+          <div class="kp-punt"><label for="hang">Hang time (sec)</label><input id="hang" type="number" step="0.1" placeholder="e.g. 4.5"></div>
+        </div>
+        <p class="optnote">K/P benchmarks extend the published D1 marks across the lower tiers.</p>
+      </div>
+      <button class="cta" id="analyze">Analyze My Profile</button>
+      <div class="err" id="err"></div>
     </div>
 
-    <button class="cta" id="analyze">Analyze My Profile</button>
-    <div class="err" id="err"></div>
-  </section>
-
-  <!-- RESULTS -->
-  <section id="results">
-    <div class="card">
-      <div class="verdict">
+    <section id="results">
+      <div class="card"><div class="verdict">
         <div class="lvl">Your projected recruiting level</div>
-        <div class="tier" id="rTier">—</div>
-        <div class="desc" id="rDesc"></div>
+        <div class="tier" id="rTier">—</div><div class="desc" id="rDesc"></div>
         <div class="score-bar"><i id="rBar" style="width:0%"></i></div>
         <div class="lvl" id="rScore" style="margin-top:4px"></div>
+      </div></div>
+      <div class="card"><h2>Measurables Breakdown</h2><p class="hint" id="bdHint"></p>
+        <div style="overflow-x:auto"><table id="breakTable"></table></div>
+        <div class="pills" id="convPill" style="margin-top:12px"></div></div>
+      <div class="card"><h3 class="sec">How to climb a tier</h3><div id="nextUp"></div></div>
+      <div class="card"><h3 class="sec" id="traitTitle">What recruiters watch</h3><div class="pills" id="traitPills"></div></div>
+      <div class="card"><h3 class="sec">Target schools</h3><div id="schoolBox"></div>
+        <button class="cta ghost" id="outreachBtn" style="margin-top:16px">📨 Email these coaches &amp; find them on X</button></div>
+      <div class="footer-note">
+        <strong style="color:var(--ink)">Recruiters look at more than measurables.</strong>
+        <div class="factors"><span>🎬 Film</span><span>📈 Production</span><span>🏆 Competition</span><span>💪 Coachability</span><span>🎓 Academics</span></div>
+        <div class="disclaimer">Projections use published position benchmarks per recruiting tier — a guideline, not a guarantee. The school list is a curated, representative sample (2025–26). Film, production, and academics drive real offers.</div>
       </div>
-    </div>
+      <button class="cta" id="again" style="margin-top:24px">Edit My Numbers</button>
+    </section>
+  </section>
 
+  <!-- ============ PROFILE ============ -->
+  <section class="view" data-view="profile">
     <div class="card">
-      <h2>Measurables Breakdown</h2>
-      <p class="hint" id="bdHint"></p>
-      <div style="overflow-x:auto">
-        <table id="breakTable"></table>
+      <h2>Build Your Recruiting Profile</h2>
+      <p class="hint">Fill this once — we’ll generate a copy-ready social-media bio and a recruiting card built the way coaches expect to see it. Saved on this device.</p>
+      <div class="grid">
+        <div><label>First name</label><input id="p_first" placeholder="George"></div>
+        <div><label>Last name</label><input id="p_last" placeholder="Wright"></div>
+        <div><label>Class of (grad year)</label><input id="p_class" type="number" placeholder="2027"></div>
+        <div><label>High school</label><input id="p_hs" placeholder="Highland Park HS"></div>
+        <div><label>City, State</label><input id="p_city" placeholder="Dallas, TX"></div>
+        <div><label>Position(s)</label><input id="p_pos" placeholder="OLB / SS"></div>
+        <div><label>Height</label><div class="twin"><input id="p_ft" type="number" placeholder="ft"><input id="p_in" type="number" placeholder="in"></div></div>
+        <div><label>Weight (lbs)</label><input id="p_wt" type="number" placeholder="200"></div>
+        <div><label>40-yd dash</label><input id="p_forty" type="number" step="0.01" placeholder="4.55"></div>
+        <div><label>GPA</label><input id="p_gpa" type="number" step="0.01" placeholder="4.36"></div>
+        <div><label>ACT / SAT — optional</label><input id="p_test" placeholder="28 / 1290"></div>
+        <div><label>Hudl link</label><input id="p_hudl" placeholder="hudl.com/profile/..."></div>
+        <div><label>X / Twitter handle</label><input id="p_x" placeholder="@_George_Wright"></div>
+        <div><label>Other sports / orgs — optional</label><input id="p_other" placeholder="Track, NHS"></div>
+        <div style="grid-column:1/-1"><label>Rankings — optional (247, Rivals, ESPN)</label><input id="p_rank" placeholder="3★ 247Sports"></div>
       </div>
-      <div class="pills" id="convPill" style="margin-top:12px"></div>
+      <button class="cta" id="genProfile">Generate My Profile</button>
+      <div class="saveflash" id="saveFlash">Saved &amp; generated ✓</div>
     </div>
 
-    <div class="card next">
-      <h3>How to climb a tier</h3>
-      <div id="nextUp"></div>
-    </div>
-
-    <div class="card traits">
-      <h3 id="traitTitle">What recruiters watch at your position</h3>
-      <div class="pills" id="traitPills"></div>
-    </div>
-
-    <div class="card schools">
-      <h3>Target schools</h3>
-      <div id="schoolBox"></div>
-    </div>
-
-    <div class="footer-note">
-      <strong style="color:var(--ink)">Recruiters look at more than measurables.</strong>
-      <div class="factors">
-        <span>🎬 Film — your best tool</span>
-        <span>📈 Production — stats + impact</span>
-        <span>🏆 Competition level</span>
-        <span>💪 Coachability</span>
-        <span>🎓 Academics — eligibility is key</span>
+    <div id="profileOut" class="hidden">
+      <div class="card">
+        <h3 class="sec">Your recruiting card</h3>
+        <div class="pcard">
+          <div class="banner"></div>
+          <div class="body">
+            <div class="avatar"></div>
+            <div class="nm" id="o_name">—</div>
+            <div class="handle" id="o_handle"></div>
+            <div class="biotxt" id="o_bio"></div>
+            <div class="loc" id="o_loc"></div>
+          </div>
+        </div>
+        <div class="copyrow">
+          <button class="cta" id="copyBio">Copy bio line</button>
+          <button class="cta ghost" id="copyPitch">Copy coach pitch</button>
+        </div>
       </div>
-      <div class="disclaimer">
-        Projections use published position size/speed/strength benchmarks per recruiting tier and are a
-        guideline, not a guarantee. The school list is a curated, representative sample (current to the
-        2025–26 season) — verify a program’s current division and conference before outreach. Film,
-        production, and academics drive real offers.
+      <div class="card">
+        <h3 class="sec">Profile checklist <span style="color:var(--muted);text-transform:none;letter-spacing:0">— the ideal HS athlete profile</span></h3>
+        <ul class="checklist" id="checklist"></ul>
+        <div class="placeholder" style="margin-top:14px">⚠️ <b>When you “like” something, you’re endorsing it</b> — colleges and coaches can see it. Keep your feed clean.</div>
       </div>
     </div>
+  </section>
 
-    <button class="cta" id="again" style="margin-top:24px">Edit My Numbers</button>
+  <!-- ============ PLAYBOOK ============ -->
+  <section class="view" data-view="playbook">
+    <div class="card educard">
+      <h2>The Ideal Social Media Profile</h2>
+      <p class="hint">How coaches expect a recruitable HS athlete’s X/Twitter to look.</p>
+      <div id="smGuide"></div>
+    </div>
+    <div class="card educard">
+      <h2>2026 Recruiting Calendar</h2>
+      <p class="hint">Know the rules, stay eligible, get recruited. Always confirm specifics with your coach or compliance office.</p>
+      <h4>Key communication &amp; offer dates</h4>
+      <div class="cal" id="calComm"></div>
+      <h4>Recruiting period timeline</h4>
+      <div class="cal" id="calPeriods"></div>
+      <div class="placeholder" style="margin-top:14px">🏈 <b>Focus. Prepare. Get recruited.</b> Communicate within the allowed timeframes, keep your grades up, and put verified numbers on film.</div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="view" data-view="pricing">
+    <div class="card">
+      <h2>Plans</h2>
+      <p class="hint">Start free. Upgrade when you’re ready to put your profile in front of the right coaches.</p>
+      <div class="tiers" id="tiers"></div>
+      <div class="soon">🔒 = automated features arriving with the connected backend (matching, X handles, coach email, auto-updates). Everything else works today.</div>
+    </div>
   </section>
 
 </div>
 
+<!-- mock outreach modal -->
+<div class="modal" id="modal"><div class="box">
+  <button class="x" id="modalX">×</button>
+  <h3>Coach Outreach <span style="color:var(--muted);font-size:11px">— preview</span></h3>
+  <p class="hint" id="modalSub"></p>
+  <div id="coachList"></div>
+  <div class="draft" id="emailDraft"></div>
+  <div class="lockbar">🔒 Auto-sending these emails and matching live <b>@coach</b> accounts is an <b>Elite ($59/mo)</b> feature. This preview shows what goes out — the real send connects through the backend.</div>
+</div></div>
+
 <script>
-/* ============================================================
-   GRIDIRON MATCH — recruiting tier engine
-   ============================================================ */
+/* ================= ENGINE ================= */
+const TIERS=[
+  {key:'P5',label:'FBS Power 5',color:'var(--t0)',desc:'Strict measurables, elite competition. The top of the recruiting pyramid.'},
+  {key:'G5',label:'FBS Group of 5 / High FCS',color:'var(--t1)',desc:'Strong measurables and production. Highly competitive scholarship football.'},
+  {key:'D2H',label:'Low FCS / High D2 / High NAIA',color:'var(--t2)',desc:'Solid measurables and production. Great opportunities to play and develop.'},
+  {key:'D3',label:'Low D2 / NAIA / Division III',color:'var(--t3)',desc:'More flexibility on measurables — production, fit, and coachability lead.'}];
+const DEV_TIER={key:null,label:'Developmental / JUCO Route',color:'var(--t4)',desc:'Your current numbers sit below the listed college tiers. JUCO, a prep year, or a focused training block can change that fast.'};
+function inches(f,i){return f*12+i}function fmtHeight(t){return Math.floor(t/12)+"'"+(t%12)+'"'}
+const POS={
+  QB:{name:'Quarterback',traits:['Arm strength & accuracy','Decision making','Leadership / IQ'],rows:[[inches(6,4),220,4.5,260,425],[inches(6,2),200,4.6,250,385],[inches(6,0),200,4.7,225,345],[inches(5,10),180,4.8,205,315]]},
+  RB:{name:'Running Back',traits:['Burst & acceleration','Vision','Balance & contact strength'],rows:[[inches(6,0),210,4.4,280,390],[inches(5,11),195,4.5,270,375],[inches(5,10),175,4.6,265,350],[inches(5,9),160,4.7,260,340]]},
+  WR:{name:'Wide Receiver',traits:['Speed & separation','Route running','Hands'],rows:[[inches(6,2),190,4.5,235,315],[inches(6,0),175,4.6,225,295],[inches(5,10),165,4.6,205,275],[inches(5,8),150,4.7,200,265]]},
+  TE:{name:'Tight End',traits:['Blocking + receiving','Size matchup','Hands'],rows:[[inches(6,4),230,4.7,300,440],[inches(6,3),220,4.8,285,420],[inches(6,2),215,4.85,275,415],[inches(6,1),205,4.9,270,405]]},
+  OL:{name:'Offensive Line',traits:['Size & wingspan','Strength','Footwork'],rows:[[inches(6,5),280,5.0,320,450],[inches(6,3),270,5.2,305,425],[inches(6,2),260,5.3,300,410],[inches(6,1),240,5.4,295,405]]},
+  DL:{name:'Defensive Line',traits:['Explosion off the line','Strength & leverage','Pass rush moves'],rows:[[inches(6,4),260,4.8,315,450],[inches(6,3),240,4.9,305,415],[inches(6,2),230,4.8,305,405],[inches(6,1),220,4.9,295,395]]},
+  LB:{name:'Linebacker',traits:['Speed & instincts','Tackling','Coverage ability'],rows:[[inches(6,2),220,4.6,315,445],[inches(6,1),210,4.65,300,435],[inches(6,0),200,4.7,295,405],[inches(5,10),190,4.75,275,395]]},
+  DB:{name:'Defensive Back',traits:['Speed (non-negotiable)','Hips / change of direction','Ball skills'],rows:[[inches(6,0),185,4.5,270,405],[inches(6,0),180,4.6,250,380],[inches(5,10),175,4.65,250,295],[inches(5,9),160,4.7,240,380]]}};
+const STD_METRICS=[
+  {key:'height',col:0,label:'Height',lower:false,weight:1.0,fmt:v=>fmtHeight(v),unit:'',verb:'',fixed:true},
+  {key:'weight',col:1,label:'Weight',lower:false,weight:1.0,fmt:v=>v+' lbs',unit:' lbs',verb:'good weight'},
+  {key:'forty',col:2,label:'40-yd',lower:true,weight:1.6,fmt:v=>v.toFixed(2)+'s',unit:'s',verb:'',dec:true},
+  {key:'bench',col:3,label:'Bench',lower:false,weight:0.6,fmt:v=>v+' lbs',unit:' lbs',verb:'strength'},
+  {key:'squat',col:4,label:'Squat',lower:false,weight:0.6,fmt:v=>v+' lbs',unit:' lbs',verb:'lower-body strength'}];
+const KP_INFO={name:'Kicker / Punter',traits:['50+ yard FG range','Kickoffs into the end zone','40+ yd punts, 4.5s+ hang','Consistency & leg strength']};
+function fmtKickoff(v){return({3:'End zone',2:'5–10 yd line',1:'Short of 10'})[v]||'—'}
+const KP_METRICS={
+  fgLong:{key:'fgLong',label:'FG Range',thresholds:[55,50,45,40],lower:false,weight:1.2,fmt:v=>v+' yds',unit:' yds',verb:'range'},
+  kickoff:{key:'kickoff',label:'Kickoffs',thresholds:[3,3,2,1],lower:false,weight:0.8,fmt:v=>fmtKickoff(v),kickoff:true},
+  puntAvg:{key:'puntAvg',label:'Punt Avg',thresholds:[44,42,40,37],lower:false,weight:1.2,fmt:v=>v+' yds',unit:' yds',verb:'distance',dec:true},
+  hang:{key:'hang',label:'Hang Time',thresholds:[4.7,4.5,4.3,4.1],lower:false,weight:0.9,fmt:v=>v.toFixed(1)+'s',unit:'s',verb:'hang time',dec:true}};
+const CONV=[[10.3,4.23],[10.4,4.27],[10.5,4.31],[10.6,4.35],[10.7,4.39],[10.8,4.43],[10.9,4.47],[11.0,4.50],[11.1,4.54],[11.2,4.58],[11.3,4.62],[11.4,4.66],[11.5,4.70],[11.6,4.74],[11.7,4.78],[11.8,4.81]];
+function hundredToForty(t){if(t<=CONV[0][0]){const s=(CONV[1][1]-CONV[0][1])/(CONV[1][0]-CONV[0][0]);return +(CONV[0][1]+s*(t-CONV[0][0])).toFixed(2)}for(let i=0;i<CONV.length-1;i++){const[a,fa]=CONV[i],[b,fb]=CONV[i+1];if(t>=a&&t<=b){const r=(t-a)/(b-a);return +(fa+r*(fb-fa)).toFixed(2)}}const n=CONV.length,s=(CONV[n-1][1]-CONV[n-2][1])/(CONV[n-1][0]-CONV[n-2][0]);return +(CONV[n-1][1]+s*(t-CONV[n-1][0])).toFixed(2)}
+function tierFor(v,th,lower){for(let i=0;i<4;i++){if(lower?v<=th[i]:v>=th[i])return i}return 4}
 
-const TIERS = [
-  { key:'P5',  label:'FBS Power 5',                   color:'var(--t0)', desc:'Strict measurables, elite competition. The top of the recruiting pyramid.' },
-  { key:'G5',  label:'FBS Group of 5 / High FCS',     color:'var(--t1)', desc:'Strong measurables and production. Highly competitive scholarship football.' },
-  { key:'D2H', label:'Low FCS / High D2 / High NAIA', color:'var(--t2)', desc:'Solid measurables and production. Great opportunities to play and develop.' },
-  { key:'D3',  label:'Low D2 / NAIA / Division III',  color:'var(--t3)', desc:'More flexibility on measurables — production, fit, and coachability lead.' },
-];
-const DEV_TIER = { key:null, label:'Developmental / JUCO Route', color:'var(--t4)',
-  desc:'Your current numbers sit below the listed college tiers. The JUCO route, a prep year, or a focused training block can change that fast — measurables improve.' };
+const REGION_NAMES={NE:'Northeast',SE:'Southeast',MW:'Midwest',SC:'South Central',W:'West'};
+const SCHOOLS={
+  P5:[{name:'Alabama',conf:'SEC',r:'SE'},{name:'Georgia',conf:'SEC',r:'SE'},{name:'Tennessee',conf:'SEC',r:'SE'},{name:'LSU',conf:'SEC',r:'SC'},{name:'Texas',conf:'SEC',r:'SC'},{name:'Texas A&M',conf:'SEC',r:'SC'},{name:'Oklahoma',conf:'SEC',r:'SC'},{name:'Ohio State',conf:'Big Ten',r:'MW'},{name:'Michigan',conf:'Big Ten',r:'MW'},{name:'Wisconsin',conf:'Big Ten',r:'MW'},{name:'Penn State',conf:'Big Ten',r:'NE'},{name:'USC',conf:'Big Ten',r:'W'},{name:'Oregon',conf:'Big Ten',r:'W'},{name:'Washington',conf:'Big Ten',r:'W'},{name:'Clemson',conf:'ACC',r:'SE'},{name:'Florida State',conf:'ACC',r:'SE'},{name:'Miami',conf:'ACC',r:'SE'},{name:'SMU',conf:'ACC',r:'SC'},{name:'California',conf:'ACC',r:'W'},{name:'Notre Dame',conf:'Independent',r:'MW'},{name:'Utah',conf:'Big 12',r:'W'},{name:'Kansas State',conf:'Big 12',r:'MW'},{name:'Baylor',conf:'Big 12',r:'SC'},{name:'Arizona State',conf:'Big 12',r:'W'}],
+  G5:[{name:'Boise State',conf:'Mountain West',r:'W'},{name:'UNLV',conf:'Mountain West',r:'W'},{name:'Memphis',conf:'AAC',r:'SE'},{name:'Tulane',conf:'AAC',r:'SC'},{name:'UTSA',conf:'AAC',r:'SC'},{name:'Army',conf:'AAC',r:'NE'},{name:'James Madison',conf:'Sun Belt',r:'SE'},{name:'Appalachian State',conf:'Sun Belt',r:'SE'},{name:'Liberty',conf:'Conference USA',r:'SE'},{name:'Toledo',conf:'MAC',r:'MW'},{name:'Ohio',conf:'MAC',r:'MW'},{name:'North Dakota State',conf:'FCS · MVFC',r:'MW'},{name:'South Dakota State',conf:'FCS · MVFC',r:'MW'},{name:'Montana',conf:'FCS · Big Sky',r:'W'},{name:'Sacramento State',conf:'FCS · Big Sky',r:'W'},{name:'Villanova',conf:'FCS · CAA',r:'NE'}],
+  D2H:[{name:'Grand Valley State',conf:'D2 · GLIAC',r:'MW'},{name:'Ferris State',conf:'D2 · GLIAC',r:'MW'},{name:'Pittsburg State',conf:'D2 · MIAA',r:'MW'},{name:'Northwest Missouri State',conf:'D2 · MIAA',r:'MW'},{name:'Colorado Mines',conf:'D2 · RMAC',r:'W'},{name:'Harding',conf:'D2 · GAC',r:'SC'},{name:'Ouachita Baptist',conf:'D2 · GAC',r:'SC'},{name:'Valdosta State',conf:'D2 · GSC',r:'SE'},{name:'West Florida',conf:'D2 · GSC',r:'SE'},{name:'Lenoir-Rhyne',conf:'D2 · SAC',r:'SE'},{name:'Slippery Rock',conf:'D2 · PSAC',r:'NE'},{name:'Kutztown',conf:'D2 · PSAC',r:'NE'},{name:'Bemidji State',conf:'D2 · NSIC',r:'MW'},{name:'Angelo State',conf:'D2 · LSC',r:'SC'}],
+  D3:[{name:'Mount Union',conf:'D3 · OAC',r:'MW'},{name:'North Central (IL)',conf:'D3 · CCIW',r:'MW'},{name:'UW-Whitewater',conf:'D3 · WIAC',r:'MW'},{name:'Wartburg',conf:'D3 · A-R-C',r:'MW'},{name:'Mary Hardin-Baylor',conf:'D3 · ASC',r:'SC'},{name:'Trinity (TX)',conf:'D3 · SAA',r:'SC'},{name:'Salisbury',conf:'D3 · NJAC',r:'NE'},{name:'SUNY Cortland',conf:'D3 · Empire 8',r:'NE'},{name:'Linfield',conf:'D3 · NWC',r:'W'},{name:'Morningside',conf:'NAIA · GPAC',r:'MW'},{name:'Northwestern (IA)',conf:'NAIA · GPAC',r:'MW'},{name:'Grand View',conf:'NAIA · Heart',r:'MW'},{name:'Benedictine (KS)',conf:'NAIA · Heart',r:'MW'},{name:'Keiser',conf:'NAIA · Sun',r:'SE'}]};
 
-function inches(ft, inch){ return ft*12 + inch; }
-function fmtHeight(tot){ return Math.floor(tot/12) + "'" + (tot%12) + '"'; }
-
-/* ----- standard position benchmark table (4 tiers each) ----- */
-const POS = {
-  QB:{ name:'Quarterback', traits:['Arm strength & accuracy','Decision making','Leadership / IQ'],
-    rows:[ [inches(6,4),220,4.5,260,425],[inches(6,2),200,4.6,250,385],[inches(6,0),200,4.7,225,345],[inches(5,10),180,4.8,205,315] ] },
-  RB:{ name:'Running Back', traits:['Burst & acceleration','Vision','Balance & contact strength'],
-    rows:[ [inches(6,0),210,4.4,280,390],[inches(5,11),195,4.5,270,375],[inches(5,10),175,4.6,265,350],[inches(5,9),160,4.7,260,340] ] },
-  WR:{ name:'Wide Receiver', traits:['Speed & separation','Route running','Hands'],
-    rows:[ [inches(6,2),190,4.5,235,315],[inches(6,0),175,4.6,225,295],[inches(5,10),165,4.6,205,275],[inches(5,8),150,4.7,200,265] ] },
-  TE:{ name:'Tight End', traits:['Blocking + receiving','Size matchup','Hands'],
-    rows:[ [inches(6,4),230,4.7,300,440],[inches(6,3),220,4.8,285,420],[inches(6,2),215,4.85,275,415],[inches(6,1),205,4.9,270,405] ] },
-  OL:{ name:'Offensive Line', traits:['Size & wingspan','Strength','Footwork'],
-    rows:[ [inches(6,5),280,5.0,320,450],[inches(6,3),270,5.2,305,425],[inches(6,2),260,5.3,300,410],[inches(6,1),240,5.4,295,405] ] },
-  DL:{ name:'Defensive Line', traits:['Explosion off the line','Strength & leverage','Pass rush moves'],
-    rows:[ [inches(6,4),260,4.8,315,450],[inches(6,3),240,4.9,305,415],[inches(6,2),230,4.8,305,405],[inches(6,1),220,4.9,295,395] ] },
-  LB:{ name:'Linebacker', traits:['Speed & instincts','Tackling','Coverage ability'],
-    rows:[ [inches(6,2),220,4.6,315,445],[inches(6,1),210,4.65,300,435],[inches(6,0),200,4.7,295,405],[inches(5,10),190,4.75,275,395] ] },
-  DB:{ name:'Defensive Back', traits:['Speed (non-negotiable)','Hips / change of direction','Ball skills'],
-    rows:[ [inches(6,0),185,4.5,270,405],[inches(6,0),180,4.6,250,380],[inches(5,10),175,4.65,250,295],[inches(5,9),160,4.7,240,380] ] },
-};
-
-/* standard metric descriptors (column index into rows) */
-const STD_METRICS = [
-  { key:'height', col:0, label:'Height', lower:false, weight:1.0, fmt:v=>fmtHeight(v),     unit:'',     verb:'',          fixed:true  },
-  { key:'weight', col:1, label:'Weight', lower:false, weight:1.0, fmt:v=>v+' lbs',         unit:' lbs', verb:'good weight'            },
-  { key:'forty',  col:2, label:'40-yd',  lower:true,  weight:1.6, fmt:v=>v.toFixed(2)+'s', unit:'s',    verb:'',          dec:true    },
-  { key:'bench',  col:3, label:'Bench',  lower:false, weight:0.6, fmt:v=>v+' lbs',         unit:' lbs', verb:'strength'              },
-  { key:'squat',  col:4, label:'Squat',  lower:false, weight:0.6, fmt:v=>v+' lbs',         unit:' lbs', verb:'lower-body strength'   },
-];
-
-/* ----- kicker / punter benchmarks (derived tiers; D1 marks anchored to P5/G5) ----- */
-const KP_INFO = { name:'Kicker / Punter', traits:['50+ yard field-goal range','Kickoffs into the end zone','40+ yd punts, 4.5s+ hang','Consistency & leg strength'] };
-function fmtKickoff(v){ return ({3:'End zone',2:'5–10 yd line',1:'Short of 10'})[v] || '—'; }
-const KP_METRICS = {
-  fgLong:  { key:'fgLong',  label:'FG Range',  thresholds:[55,50,45,40],   lower:false, weight:1.2, fmt:v=>v+' yds', unit:' yds', verb:'range' },
-  kickoff: { key:'kickoff', label:'Kickoffs',  thresholds:[3,3,2,1],       lower:false, weight:0.8, fmt:v=>fmtKickoff(v), kickoff:true },
-  puntAvg: { key:'puntAvg', label:'Punt Avg',  thresholds:[44,42,40,37],   lower:false, weight:1.2, fmt:v=>v+' yds', unit:' yds', verb:'distance', dec:true },
-  hang:    { key:'hang',    label:'Hang Time', thresholds:[4.7,4.5,4.3,4.1],lower:false, weight:0.9, fmt:v=>v.toFixed(1)+'s', unit:'s', verb:'hang time', dec:true },
-};
-
-/* ----- 100m -> 40-yd conversion (published chart) ----- */
-const CONV = [[10.3,4.23],[10.4,4.27],[10.5,4.31],[10.6,4.35],[10.7,4.39],[10.8,4.43],[10.9,4.47],
-  [11.0,4.50],[11.1,4.54],[11.2,4.58],[11.3,4.62],[11.4,4.66],[11.5,4.70],[11.6,4.74],[11.7,4.78],[11.8,4.81]];
-function hundredToForty(t){
-  if(t<=CONV[0][0]){ const s=(CONV[1][1]-CONV[0][1])/(CONV[1][0]-CONV[0][0]); return +(CONV[0][1]+s*(t-CONV[0][0])).toFixed(2); }
-  for(let i=0;i<CONV.length-1;i++){ const [a,fa]=CONV[i],[b,fb]=CONV[i+1];
-    if(t>=a&&t<=b){ const r=(t-a)/(b-a); return +(fa+r*(fb-fa)).toFixed(2); } }
-  const n=CONV.length,s=(CONV[n-1][1]-CONV[n-2][1])/(CONV[n-1][0]-CONV[n-2][0]);
-  return +(CONV[n-1][1]+s*(t-CONV[n-1][0])).toFixed(2);
-}
-
-function tierFor(value, thresholds, lower){
-  for(let i=0;i<4;i++){ if(lower ? value<=thresholds[i] : value>=thresholds[i]) return i; }
-  return 4;
-}
-
-/* ============================================================
-   NAMED-SCHOOL DATASET (curated representative sample, 2025–26)
-   Keyed by tier; r = region (NE/SE/MW/SC/W). Editable / extensible.
-   ============================================================ */
-const REGION_NAMES = { NE:'Northeast', SE:'Southeast', MW:'Midwest', SC:'South Central', W:'West' };
-const SCHOOLS = {
-  P5:[
-    {name:'Alabama',conf:'SEC',r:'SE'},{name:'Georgia',conf:'SEC',r:'SE'},{name:'Tennessee',conf:'SEC',r:'SE'},
-    {name:'LSU',conf:'SEC',r:'SC'},{name:'Texas',conf:'SEC',r:'SC'},{name:'Texas A&M',conf:'SEC',r:'SC'},
-    {name:'Oklahoma',conf:'SEC',r:'SC'},{name:'Ohio State',conf:'Big Ten',r:'MW'},{name:'Michigan',conf:'Big Ten',r:'MW'},
-    {name:'Wisconsin',conf:'Big Ten',r:'MW'},{name:'Penn State',conf:'Big Ten',r:'NE'},{name:'USC',conf:'Big Ten',r:'W'},
-    {name:'Oregon',conf:'Big Ten',r:'W'},{name:'Washington',conf:'Big Ten',r:'W'},{name:'Clemson',conf:'ACC',r:'SE'},
-    {name:'Florida State',conf:'ACC',r:'SE'},{name:'Miami',conf:'ACC',r:'SE'},{name:'SMU',conf:'ACC',r:'SC'},
-    {name:'California',conf:'ACC',r:'W'},{name:'Notre Dame',conf:'Independent',r:'MW'},{name:'Utah',conf:'Big 12',r:'W'},
-    {name:'Kansas State',conf:'Big 12',r:'MW'},{name:'Baylor',conf:'Big 12',r:'SC'},{name:'Arizona State',conf:'Big 12',r:'W'},
-  ],
-  G5:[
-    {name:'Boise State',conf:'Mountain West',r:'W'},{name:'UNLV',conf:'Mountain West',r:'W'},
-    {name:'Memphis',conf:'AAC',r:'SE'},{name:'Tulane',conf:'AAC',r:'SC'},{name:'UTSA',conf:'AAC',r:'SC'},
-    {name:'Army',conf:'AAC',r:'NE'},{name:'James Madison',conf:'Sun Belt',r:'SE'},
-    {name:'Appalachian State',conf:'Sun Belt',r:'SE'},{name:'Liberty',conf:'Conference USA',r:'SE'},
-    {name:'Toledo',conf:'MAC',r:'MW'},{name:'Ohio',conf:'MAC',r:'MW'},
-    {name:'North Dakota State',conf:'FCS · MVFC',r:'MW'},{name:'South Dakota State',conf:'FCS · MVFC',r:'MW'},
-    {name:'Montana',conf:'FCS · Big Sky',r:'W'},{name:'Sacramento State',conf:'FCS · Big Sky',r:'W'},
-    {name:'Villanova',conf:'FCS · CAA',r:'NE'},
-  ],
-  D2H:[
-    {name:'Grand Valley State',conf:'D2 · GLIAC',r:'MW'},{name:'Ferris State',conf:'D2 · GLIAC',r:'MW'},
-    {name:'Pittsburg State',conf:'D2 · MIAA',r:'MW'},{name:'Northwest Missouri State',conf:'D2 · MIAA',r:'MW'},
-    {name:'Colorado Mines',conf:'D2 · RMAC',r:'W'},{name:'Harding',conf:'D2 · GAC',r:'SC'},
-    {name:'Ouachita Baptist',conf:'D2 · GAC',r:'SC'},{name:'Valdosta State',conf:'D2 · GSC',r:'SE'},
-    {name:'West Florida',conf:'D2 · GSC',r:'SE'},{name:'Lenoir-Rhyne',conf:'D2 · SAC',r:'SE'},
-    {name:'Slippery Rock',conf:'D2 · PSAC',r:'NE'},{name:'Kutztown',conf:'D2 · PSAC',r:'NE'},
-    {name:'Bemidji State',conf:'D2 · NSIC',r:'MW'},{name:'Angelo State',conf:'D2 · LSC',r:'SC'},
-  ],
-  D3:[
-    {name:'Mount Union',conf:'D3 · OAC',r:'MW'},{name:'North Central (IL)',conf:'D3 · CCIW',r:'MW'},
-    {name:'UW-Whitewater',conf:'D3 · WIAC',r:'MW'},{name:'Wartburg',conf:'D3 · A-R-C',r:'MW'},
-    {name:'Mary Hardin-Baylor',conf:'D3 · ASC',r:'SC'},{name:'Trinity (TX)',conf:'D3 · SAA',r:'SC'},
-    {name:'Salisbury',conf:'D3 · NJAC',r:'NE'},{name:'SUNY Cortland',conf:'D3 · Empire 8',r:'NE'},
-    {name:'Linfield',conf:'D3 · NWC',r:'W'},{name:'Morningside',conf:'NAIA · GPAC',r:'MW'},
-    {name:'Northwestern (IA)',conf:'NAIA · GPAC',r:'MW'},{name:'Grand View',conf:'NAIA · Heart',r:'MW'},
-    {name:'Benedictine (KS)',conf:'NAIA · Heart',r:'MW'},{name:'Keiser',conf:'NAIA · Sun',r:'SE'},
-  ],
-};
-
-/* ---------------------- UI WIRING ---------------------- */
-let speedMode='forty', kpType='K';
+/* ================= STATE ================= */
+let speedMode='forty',kpType='K',lastMatches=[],lastTierLabel='';
 const $=id=>document.getElementById(id);
+const PKEY='gm_profile';
 
-$('pos').addEventListener('change',()=>{
-  const kp = $('pos').value==='KP';
-  $('kpFields').classList.toggle('hidden',!kp);
-  $('stdFields').classList.toggle('hidden',kp);
-});
-$('speedToggle').addEventListener('click',e=>{
-  const b=e.target.closest('button'); if(!b) return;
-  speedMode=b.dataset.mode;
-  [...$('speedToggle').children].forEach(x=>x.classList.toggle('active',x===b));
-  if(speedMode==='forty'){ $('speed').placeholder='e.g. 4.55'; $('speedNote').textContent='Enter your hand/laser 40 time in seconds.'; }
-  else { $('speed').placeholder='e.g. 11.20'; $('speedNote').textContent='Enter your 100m time — we convert it to a 40 estimate.'; }
-});
-$('kpToggle').addEventListener('click',e=>{
-  const b=e.target.closest('button'); if(!b) return;
-  kpType=b.dataset.kp;
-  [...$('kpToggle').children].forEach(x=>x.classList.toggle('active',x===b));
-  document.querySelectorAll('.kp-kick').forEach(el=>el.classList.toggle('hidden', kpType==='P'));
-  document.querySelectorAll('.kp-punt').forEach(el=>el.classList.toggle('hidden', kpType==='K'));
-});
+/* ================= NAV ================= */
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.dataset.view===b.dataset.view));
+  window.scrollTo({top:0,behavior:'smooth'});});
 
+/* ================= ANALYZE wiring ================= */
+$('pos').addEventListener('change',()=>{const kp=$('pos').value==='KP';$('kpFields').classList.toggle('hidden',!kp);$('stdFields').classList.toggle('hidden',kp)});
+$('speedToggle').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;speedMode=b.dataset.mode;[...$('speedToggle').children].forEach(x=>x.classList.toggle('active',x===b));if(speedMode==='forty'){$('speed').placeholder='e.g. 4.55';$('speedNote').textContent='Enter your hand/laser 40 time in seconds.'}else{$('speed').placeholder='e.g. 11.20';$('speedNote').textContent='Enter your 100m time — we convert it to a 40 estimate.'}});
+$('kpToggle').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;kpType=b.dataset.kp;[...$('kpToggle').children].forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.kp-kick').forEach(el=>el.classList.toggle('hidden',kpType==='P'));document.querySelectorAll('.kp-punt').forEach(el=>el.classList.toggle('hidden',kpType==='K'))});
 $('analyze').addEventListener('click',run);
-$('again').addEventListener('click',()=>{ $('results').style.display='none'; $('inputCard').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); });
-function showErr(m){ const e=$('err'); e.textContent=m; e.style.display='block'; }
+$('again').addEventListener('click',()=>{$('results').style.display='none';$('inputCard').style.display='block';window.scrollTo({top:0,behavior:'smooth'})});
+function showErr(m){const e=$('err');e.textContent=m;e.style.display='block'}
 
 function buildStandardMetrics(){
-  const ft=parseInt($('ft').value,10), inch=parseInt($('in').value,10);
-  const wt=parseFloat($('wt').value);
-  const rawSpeed=parseFloat($('speed').value);
-  const bench=$('bench').value===''?null:parseFloat($('bench').value);
-  const squat=$('squat').value===''?null:parseFloat($('squat').value);
-  if(isNaN(ft)||isNaN(inch)) return {err:'Enter your height (feet and inches).'};
-  if(isNaN(wt)||wt<=0) return {err:'Enter your weight in pounds.'};
-  if(isNaN(rawSpeed)||rawSpeed<=0) return {err:'Enter your speed (40-yd dash or 100m time).'};
-
-  let forty=rawSpeed, converted=null;
-  if(speedMode==='hundred'){ forty=hundredToForty(rawSpeed); converted={from:rawSpeed,to:forty}; }
-  const vals={ height:inches(ft,inch), weight:wt, forty:forty, bench:bench, squat:squat };
-  const data=POS[$('pos').value];
-  const metrics=STD_METRICS.map(m=>{
-    const v=vals[m.key]; const provided=v!==null&&!isNaN(v);
-    return { ...m, value:v, provided, thresholds:data.rows.map(r=>r[m.col]) };
-  });
-  return { metrics, converted, info:data };
+  const ft=parseInt($('ft').value,10),inch=parseInt($('in').value,10),wt=parseFloat($('wt').value),rawSpeed=parseFloat($('speed').value);
+  const bench=$('bench').value===''?null:parseFloat($('bench').value),squat=$('squat').value===''?null:parseFloat($('squat').value);
+  if(isNaN(ft)||isNaN(inch))return{err:'Enter your height (feet and inches).'};
+  if(isNaN(wt)||wt<=0)return{err:'Enter your weight in pounds.'};
+  if(isNaN(rawSpeed)||rawSpeed<=0)return{err:'Enter your speed (40-yd dash or 100m time).'};
+  let forty=rawSpeed,converted=null;if(speedMode==='hundred'){forty=hundredToForty(rawSpeed);converted={from:rawSpeed,to:forty}}
+  const vals={height:inches(ft,inch),weight:wt,forty,bench,squat},data=POS[$('pos').value];
+  return{metrics:STD_METRICS.map(m=>{const v=vals[m.key],provided=v!==null&&!isNaN(v);return{...m,value:v,provided,thresholds:data.rows.map(r=>r[m.col])}}),converted,info:data};
 }
-
 function buildKpMetrics(){
-  const fgLong=$('fgLong').value===''?null:parseFloat($('fgLong').value);
-  const kickoff=$('kickoff').value===''?null:parseFloat($('kickoff').value);
-  const puntAvg=$('puntAvg').value===''?null:parseFloat($('puntAvg').value);
-  const hang=$('hang').value===''?null:parseFloat($('hang').value);
-  const wantKick=(kpType==='K'||kpType==='KP'), wantPunt=(kpType==='P'||kpType==='KP');
-  if(wantKick && (fgLong===null||kickoff===null)) return {err:'Enter your longest FG and kickoff depth.'};
-  if(wantPunt && (puntAvg===null||hang===null)) return {err:'Enter your punt average and hang time.'};
-
-  const vals={fgLong,kickoff,puntAvg,hang};
-  const order=[]; if(wantKick) order.push('fgLong','kickoff'); if(wantPunt) order.push('puntAvg','hang');
-  const metrics=order.map(k=>{ const m=KP_METRICS[k]; const v=vals[k];
-    return { ...m, value:v, provided:v!==null&&!isNaN(v) }; });
-  return { metrics, converted:null, info:KP_INFO };
+  const fgLong=$('fgLong').value===''?null:parseFloat($('fgLong').value),kickoff=$('kickoff').value===''?null:parseFloat($('kickoff').value);
+  const puntAvg=$('puntAvg').value===''?null:parseFloat($('puntAvg').value),hang=$('hang').value===''?null:parseFloat($('hang').value);
+  const wantKick=(kpType==='K'||kpType==='KP'),wantPunt=(kpType==='P'||kpType==='KP');
+  if(wantKick&&(fgLong===null||kickoff===null))return{err:'Enter your longest FG and kickoff depth.'};
+  if(wantPunt&&(puntAvg===null||hang===null))return{err:'Enter your punt average and hang time.'};
+  const vals={fgLong,kickoff,puntAvg,hang},order=[];if(wantKick)order.push('fgLong','kickoff');if(wantPunt)order.push('puntAvg','hang');
+  return{metrics:order.map(k=>{const m=KP_METRICS[k],v=vals[k];return{...m,value:v,provided:v!==null&&!isNaN(v)}}),converted:null,info:KP_INFO};
 }
-
 function run(){
   $('err').style.display='none';
-  const isKp=$('pos').value==='KP';
-  const built = isKp ? buildKpMetrics() : buildStandardMetrics();
-  if(built.err) return showErr(built.err);
-
-  // score
-  let wSum=0, wAcc=0;
-  built.metrics.forEach(m=>{
-    if(!m.provided) return;
-    m.tier = tierFor(m.value, m.thresholds, m.lower);
-    wSum+=m.weight; wAcc += Math.min(m.tier,4)*m.weight;
-  });
-  const overallRaw=wAcc/wSum, overallIdx=Math.round(overallRaw);
-  const tier = overallIdx>=4 ? DEV_TIER : TIERS[overallIdx];
-
-  render(built, overallIdx, overallRaw, tier);
-  $('inputCard').style.display='none';
-  $('results').style.display='block';
-  window.scrollTo({top:0,behavior:'smooth'});
+  const isKp=$('pos').value==='KP',built=isKp?buildKpMetrics():buildStandardMetrics();
+  if(built.err)return showErr(built.err);
+  let wSum=0,wAcc=0;built.metrics.forEach(m=>{if(!m.provided)return;m.tier=tierFor(m.value,m.thresholds,m.lower);wSum+=m.weight;wAcc+=Math.min(m.tier,4)*m.weight});
+  const overallRaw=wAcc/wSum,overallIdx=Math.round(overallRaw),tier=overallIdx>=4?DEV_TIER:TIERS[overallIdx];
+  render(built,overallIdx,overallRaw,tier);
+  $('inputCard').style.display='none';$('results').style.display='block';window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function climbLine(m, nextIdx){
-  const need=m.thresholds[nextIdx];
-  const meets = m.lower ? m.value<=need : m.value>=need;
-  if(meets) return '<li class="ok">✓ '+m.label+': '+m.fmt(m.value)+' already meets the mark ('+m.fmt(need)+')</li>';
-  if(m.fixed) return '<li class="need">→ '+m.label+': fixed — offset it with elite speed and production</li>';
-  if(m.kickoff) return '<li class="need">→ '+m.label+': add leg strength — drive kickoffs into the end zone</li>';
-  const diff = m.lower ? (m.value-need) : (need-m.value);
-  const d = m.dec ? diff.toFixed(2) : Math.round(diff);
-  const how = m.lower ? ('cut '+d+(m.unit||'')+' off your '+m.label)
-                      : ('add '+d+(m.unit||'')+(m.verb?(' of '+m.verb):''));
+function climbLine(m,nextIdx){
+  const need=m.thresholds[nextIdx],meets=m.lower?m.value<=need:m.value>=need;
+  if(meets)return '<li class="ok">✓ '+m.label+': '+m.fmt(m.value)+' already meets the mark ('+m.fmt(need)+')</li>';
+  if(m.fixed)return '<li class="need">→ '+m.label+': fixed — offset it with elite speed and production</li>';
+  if(m.kickoff)return '<li class="need">→ '+m.label+': add leg strength — drive kickoffs into the end zone</li>';
+  const diff=m.lower?(m.value-need):(need-m.value),d=m.dec?diff.toFixed(2):Math.round(diff);
+  const how=m.lower?('cut '+d+(m.unit||'')+' off your '+m.label):('add '+d+(m.unit||'')+(m.verb?(' of '+m.verb):''));
   return '<li class="need">→ '+m.label+': '+how+' (to '+m.fmt(need)+')</li>';
 }
-
-function render(built, overallIdx, overallRaw, tier){
-  const {metrics, converted, info}=built;
-  $('rTier').textContent=tier.label; $('rTier').style.color=tier.color;
-  $('rDesc').textContent=tier.desc;
-  const pct=Math.max(4, Math.round((1-(overallRaw/4))*100));
-  $('rBar').style.width=pct+'%';
-  $('rScore').textContent='Profile strength: '+pct+'/100';
-
-  // breakdown table
+function render(built,overallIdx,overallRaw,tier){
+  const{metrics,converted,info}=built;
+  $('rTier').textContent=tier.label;$('rTier').style.color=tier.color;$('rDesc').textContent=tier.desc;
+  const pct=Math.max(4,Math.round((1-(overallRaw/4))*100));$('rBar').style.width=pct+'%';$('rScore').textContent='Profile strength: '+pct+'/100';
   $('bdHint').textContent='Where each number lands against '+info.name+' benchmarks. Highlighted cell = the highest tier that number reaches.';
-  let head='<tr><th style="text-align:left">Metric</th><th>You</th>'+TIERS.map(t=>'<th>'+t.label.replace(/ \/ /g,'/<wbr>')+'</th>').join('')+'<th>Your tier</th></tr>';
-  let body='';
+  let head='<tr><th style="text-align:left">Metric</th><th>You</th>'+TIERS.map(t=>'<th>'+t.label.replace(/ \/ /g,'/<wbr>')+'</th>').join('')+'<th>Your tier</th></tr>',body='';
   metrics.forEach(m=>{
-    if(!m.provided){
-      body+='<tr><td class="metric">'+m.label+'</td><td style="color:var(--muted)">—</td>'+
-        m.thresholds.map(v=>'<td style="color:var(--muted)">'+m.fmt(v)+'</td>').join('')+
-        '<td style="color:var(--muted)">n/a</td></tr>'; return;
-    }
-    let cells='';
-    for(let i=0;i<4;i++){ cells+='<td class="'+(m.tier===i?'cell-hit':'')+'">'+m.fmt(m.thresholds[i])+'</td>'; }
-    const badge = m.tier>=4
-      ? '<span class="badge" style="background:var(--t4);color:#111">Below</span>'
-      : '<span class="badge" style="background:'+TIERS[m.tier].color+';color:#111">'+TIERS[m.tier].key+'</span>';
+    if(!m.provided){body+='<tr><td class="metric">'+m.label+'</td><td style="color:var(--muted)">—</td>'+m.thresholds.map(v=>'<td style="color:var(--muted)">'+m.fmt(v)+'</td>').join('')+'<td style="color:var(--muted)">n/a</td></tr>';return}
+    let cells='';for(let i=0;i<4;i++)cells+='<td class="'+(m.tier===i?'cell-hit':'')+'">'+m.fmt(m.thresholds[i])+'</td>';
+    const badge=m.tier>=4?'<span class="badge" style="background:var(--t4);color:#111">Below</span>':'<span class="badge" style="background:'+TIERS[m.tier].color+';color:#111">'+TIERS[m.tier].key+'</span>';
     body+='<tr><td class="metric">'+m.label+'</td><td class="you">'+m.fmt(m.value)+'</td>'+cells+'<td>'+badge+'</td></tr>';
   });
   $('breakTable').innerHTML=head+body;
-
-  $('convPill').innerHTML = converted
-    ? '<span class="pill">100m <b>'+converted.from.toFixed(2)+'s</b> &nbsp;→&nbsp; est. 40-yd <b>'+converted.to.toFixed(2)+'s</b></span>' : '';
-
-  // climb
+  $('convPill').innerHTML=converted?'<span class="pill">100m <b>'+converted.from.toFixed(2)+'s</b> → est. 40-yd <b>'+converted.to.toFixed(2)+'s</b></span>':'';
   const nu=$('nextUp');
-  if(overallIdx<=0){
-    nu.innerHTML='<p style="margin:0;color:var(--good);font-weight:700">You already profile at the top tier (Power 5) on these numbers. Now it’s film, production, and competition level. Keep your numbers and let the tape talk.</p>';
-  } else {
-    const nextIdx=overallIdx-1, target=TIERS[nextIdx];
-    const gaps=metrics.filter(m=>m.provided).map(m=>climbLine(m,nextIdx));
-    nu.innerHTML='<p style="margin:0 0 8px">To project at <b style="color:'+target.color+'">'+target.label+'</b>, here’s the gap:</p><ul class="gap-list">'+gaps.join('')+'</ul>';
-  }
-
-  // traits
-  $('traitTitle').textContent='What recruiters watch at '+info.name;
-  $('traitPills').innerHTML=info.traits.map(t=>'<span class="pill">'+t+'</span>').join('');
-
-  // schools (named dataset + region filter)
-  renderSchools(overallIdx, $('region').value, tier);
+  if(overallIdx<=0){nu.innerHTML='<p style="margin:0;color:var(--good);font-weight:700">You already profile at the top tier on these numbers. Now it’s film, production, and competition level.</p>';}
+  else{const nextIdx=overallIdx-1,target=TIERS[nextIdx];const gaps=metrics.filter(m=>m.provided).map(m=>climbLine(m,nextIdx));nu.innerHTML='<p style="margin:0 0 8px">To project at <b style="color:'+target.color+'">'+target.label+'</b>, here’s the gap:</p><ul class="gap-list">'+gaps.join('')+'</ul>';}
+  $('traitTitle').textContent='What recruiters watch at '+info.name;$('traitPills').innerHTML=info.traits.map(t=>'<span class="pill">'+t+'</span>').join('');
+  renderSchools(overallIdx,$('region').value,tier);
+}
+function renderSchools(overallIdx,region,tier){
+  const sb=$('schoolBox'),key=overallIdx>=4?null:TIERS[overallIdx].key,all=key&&SCHOOLS[key]?SCHOOLS[key].slice():null;
+  lastTierLabel=tier.label;
+  if(!all||!all.length){lastMatches=[];$('outreachBtn').style.display='none';sb.innerHTML='<div class="placeholder">Your numbers sit below the listed college tiers — JUCO, a prep year, or a camp circuit to put verified numbers on tape is the play. Build film, retest, and re-run this.</div>';return;}
+  $('outreachBtn').style.display='';
+  let ordered=all,note='';
+  if(region!=='Any'){const match=all.filter(s=>s.r===region),rest=all.filter(s=>s.r!==region);ordered=match.concat(rest);note=match.length?'Showing <b style="color:var(--gold)">'+REGION_NAMES[region]+'</b> programs first, then other regions.':'No '+REGION_NAMES[region]+' programs in this sample at this tier — showing others.';}
+  const show=ordered.slice(0,10);lastMatches=show;
+  sb.innerHTML='<p class="hint">Based on your profile, target <b style="color:'+tier.color+'">'+tier.label+'</b> programs. '+note+'</p>'+show.map(s=>'<div class="sch"><span><b>'+s.name+'</b></span><span class="meta">'+s.conf+'<span class="reg">'+REGION_NAMES[s.r]+'</span></span></div>').join('');
 }
 
-function renderSchools(overallIdx, region, tier){
-  const sb=$('schoolBox');
-  const key = overallIdx>=4 ? null : TIERS[overallIdx].key;
-  const all = key && SCHOOLS[key] ? SCHOOLS[key].slice() : null;
-  if(!all || !all.length){
-    sb.innerHTML='<div class="placeholder">Your numbers sit below the listed college tiers — the best path is the JUCO route, a prep year, or a camp circuit to put verified numbers on tape. Build the film, retest, and re-run this.</div>';
-    return;
-  }
-  let ordered=all, note='';
-  if(region!=='Any'){
-    const match=all.filter(s=>s.r===region), rest=all.filter(s=>s.r!==region);
-    ordered=match.concat(rest);
-    note = match.length
-      ? 'Showing <b style="color:var(--gold)">'+REGION_NAMES[region]+'</b> programs first, then other regions at this tier.'
-      : 'No '+REGION_NAMES[region]+' programs in this sample at this tier — showing others.';
-  }
-  const show=ordered.slice(0,10);
-  const head='<p class="schhead">Based on your profile, target <b style="color:'+tier.color+'">'+tier.label+'</b> programs. '+note+'</p>';
-  sb.innerHTML=head+show.map(s=>
-    '<div class="sch"><span><b>'+s.name+'</b></span>'+
-    '<span class="meta">'+s.conf+'<span class="reg">'+REGION_NAMES[s.r]+'</span></span></div>').join('');
+/* ================= MOCK OUTREACH ================= */
+function slug(n){return n.toLowerCase().replace(/[^a-z]/g,'')}
+$('outreachBtn').addEventListener('click',()=>{
+  const p=loadProfile();
+  $('modalSub').innerHTML='Preview of outreach to your top <b>'+lastTierLabel+'</b> matches'+(p&&p.first?(', from <b>'+p.first+' '+(p.last||'')+'</b>'):'')+'.';
+  $('coachList').innerHTML=lastMatches.slice(0,5).map(s=>'<div class="coachrow"><span><b>'+s.name+'</b> Football<br><span class="h">@'+slug(s.name)+'FB · recruiting@'+slug(s.name)+'.edu</span></span><span class="meta">'+s.conf+'</span></div>').join('');
+  $('emailDraft').textContent=draftEmail(p,lastMatches[0]);
+  $('modal').classList.add('open');
+});
+$('modalX').addEventListener('click',()=>$('modal').classList.remove('open'));
+$('modal').addEventListener('click',e=>{if(e.target.id==='modal')$('modal').classList.remove('open')});
+function draftEmail(p,school){
+  const nm=p&&p.first?(p.first+' '+(p.last||'')):'[Your name]';
+  const cls=p&&p.class?("'"+String(p.class).slice(-2)):'[class]';
+  const pos=p&&p.pos?p.pos:'[position]';const hs=p&&p.hs?p.hs:'[high school]';const city=p&&p.city?p.city:'[city, state]';
+  const ht=p&&p.ft?fmtHeight(inches(+p.ft,+(p.in||0))):'[ht]';const wt=p&&p.wt?p.wt+' lbs':'[wt]';
+  const forty=p&&p.forty?p.forty+' 40':'[40 time]';const gpa=p&&p.gpa?p.gpa+' GPA':'[GPA]';const hudl=p&&p.hudl?p.hudl:'[Hudl link]';
+  const sn=school?school.name:'[School]';
+  return 'Subject: '+cls+' '+pos+' — '+nm+' ('+hs+')\n\nCoach,\n\nMy name is '+nm+', a '+cls+' '+pos+' from '+hs+' in '+city+'. I’m very interested in '+sn+'.\n\nMeasurables: '+ht+', '+wt+', '+forty+', '+gpa+'.\nFilm: '+hudl+'\n\nI’d love the chance to talk and earn a spot in your recruiting class. Thank you for your time.\n\n— '+nm;
 }
+
+/* ================= PROFILE ================= */
+function readProfile(){return{first:$('p_first').value.trim(),last:$('p_last').value.trim(),class:$('p_class').value.trim(),hs:$('p_hs').value.trim(),city:$('p_city').value.trim(),pos:$('p_pos').value.trim(),ft:$('p_ft').value.trim(),in:$('p_in').value.trim(),wt:$('p_wt').value.trim(),forty:$('p_forty').value.trim(),gpa:$('p_gpa').value.trim(),test:$('p_test').value.trim(),hudl:$('p_hudl').value.trim(),x:$('p_x').value.trim(),other:$('p_other').value.trim(),rank:$('p_rank').value.trim()}}
+function loadProfile(){try{return JSON.parse(localStorage.getItem(PKEY)||'null')}catch(e){return null}}
+function fillProfileForm(p){if(!p)return;const map={p_first:'first',p_last:'last',p_class:'class',p_hs:'hs',p_city:'city',p_pos:'pos',p_ft:'ft',p_in:'in',p_wt:'wt',p_forty:'forty',p_gpa:'gpa',p_test:'test',p_hudl:'hudl',p_x:'x',p_other:'other',p_rank:'rank'};for(const id in map){if(p[map[id]]!=null)$(id).value=p[map[id]]}}
+function bioLine(p){
+  const parts=[];
+  if(p.hs)parts.push(p.hs+(p.class?" '"+String(p.class).slice(-2):''));
+  else if(p.class)parts.push("Class of "+p.class);
+  if(p.pos)parts.push(p.pos);
+  if(p.ft)parts.push(fmtHeight(inches(+p.ft,+(p.in||0)))+(p.wt?' '+p.wt+' lbs':''));
+  else if(p.wt)parts.push(p.wt+' lbs');
+  if(p.forty)parts.push(p.forty+' 40');
+  if(p.gpa)parts.push(p.gpa+' GPA');
+  if(p.test)parts.push(p.test);
+  if(p.rank)parts.push(p.rank);
+  return parts.join(' | ');
+}
+$('genProfile').addEventListener('click',()=>{
+  const p=readProfile();localStorage.setItem(PKEY,JSON.stringify(p));
+  renderProfile(p);prefillAnalyze(p);
+  const f=$('saveFlash');f.style.display='block';setTimeout(()=>f.style.display='none',2200);
+});
+function renderProfile(p){
+  $('profileOut').classList.remove('hidden');
+  $('o_name').textContent=((p.first||'')+' '+(p.last||'')).trim()||'Your Name';
+  $('o_handle').textContent=p.x?(p.x[0]==='@'?p.x:'@'+p.x):'';
+  const bl=bioLine(p);$('o_bio').innerHTML=bl?bl:'<span style="color:var(--muted)">Fill in your details above to build your bio.</span>';
+  const loc=[];if(p.city)loc.push('📍 '+p.city);if(p.hudl)loc.push('🎬 <a href="#" onclick="return false">'+p.hudl+'</a>');if(p.other)loc.push('🏅 '+p.other);
+  $('o_loc').innerHTML=loc.join('');
+  // checklist
+  const items=[
+    ['done',!!(p.first&&p.last),'Real name','Coaches search by name — use your real one.'],
+    ['done',!!p.x,'Professional handle','Clean, simple @handle with your name.'],
+    ['done',bl.length>0,'Complete bio','HS, class, position, height/weight, 40, GPA.'],
+    ['done',!!p.city,'Current town as location','So local + regional coaches can find you.'],
+    ['done',!!p.hudl,'Hudl link','Your film is your #1 recruiting tool.'],
+    ['done',!!p.gpa,'GPA listed','Academics drive eligibility and offers.'],
+    ['tip',null,'Profile pic in uniform','Use a clear action/uniform photo as your avatar.'],
+    ['tip',null,'Keep your DMs open','Coaches reach out by direct message.'],
+    ['tip',null,'Follow coaches & teams','Follow the programs you’re targeting.'],
+    ['tip',null,'Limit emojis & watch your “likes”','A like is a public endorsement coaches can see.']
+  ];
+  $('checklist').innerHTML=items.map(([type,ok,t,d])=>{
+    let cls=type,ic='•';
+    if(type==='done'){cls=ok?'done':'todo';ic=ok?'✓':'○'}
+    else ic='★';
+    return '<li class="'+cls+'"><span class="ic">'+ic+'</span><span><b>'+t+'</b><br><span style="color:var(--muted);font-size:13px">'+d+'</span></span></li>';
+  }).join('');
+}
+function prefillAnalyze(p){
+  const posMap={QB:/qb|quarter/i,RB:/rb|running/i,WR:/wr|receiv/i,TE:/te|tight/i,OL:/ol|o-?line|tackle|guard|center/i,DL:/dl|d-?line|edge|defensive end|defensive tackle/i,LB:/lb|backer|olb|ilb|mlb/i,DB:/db|corner|cb|safety|ss|fs/i,KP:/kick|punt/i};
+  if(p.pos)for(const k in posMap){if(posMap[k].test(p.pos)){$('pos').value=k;$('pos').dispatchEvent(new Event('change'));break}}
+  if(p.ft)$('ft').value=p.ft;if(p.in)$('in').value=p.in;if(p.wt)$('wt').value=p.wt;if(p.forty)$('speed').value=p.forty;
+}
+$('copyBio').addEventListener('click',()=>{const p=loadProfile()||readProfile();copy(bioLine(p),$('copyBio'),'Copy bio line')});
+$('copyPitch').addEventListener('click',()=>{const p=loadProfile()||readProfile();copy(draftEmail(p,null).split('\n\n').slice(1).join('\n\n'),$('copyPitch'),'Copy coach pitch')});
+function copy(txt,btn,label){navigator.clipboard?.writeText(txt).then(()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent=label,1600)}).catch(()=>{btn.textContent='Copy failed';setTimeout(()=>btn.textContent=label,1600)})}
+
+/* ================= PLAYBOOK ================= */
+const SM_GUIDE=[
+  ['🪪','Use your real name','Coaches search rosters and recruiting boards by name.'],
+  ['🏈','Profile pic of you in uniform','A clear action or uniform shot — look the part.'],
+  ['@','Professional handle','Simple and clean, ideally your name. No nicknames coaches can’t place.'],
+  ['📍','Current town as your location','Helps local and regional staffs find and bucket you.'],
+  ['🎬','Link to your Hudl','Your film is the single most important asset. Put it up top.'],
+  ['📩','Make sure DMs are open','Coaches and analysts make first contact by direct message.'],
+  ['👥','Follow coaches & teams','Follow the programs and position coaches you’re targeting.'],
+  ['📝','Bio should have it all','HS (spelled out), GPA (+ACT/SAT), class of, position, other sports/orgs, height/weight, rankings (247/Rivals/ESPN). Limit emojis.'],
+  ['⚠️','Be careful what you “like”','A like is a public endorsement — colleges and coaches can see it.']
+];
+$('smGuide').innerHTML=SM_GUIDE.map(([k,t,d])=>'<div class="edu-item"><div class="k">'+k+'</div><div class="t"><b>'+t+'</b><br><span>'+d+'</span></div></div>').join('');
+const CAL_COMM=[
+  ['go','June 15','After sophomore year','D1 & D2 coaches can begin direct communication — calls, texts, and emails.'],
+  ['go','September 1','Of junior year','Coaches may contact recruits off-campus and make unlimited calls.']
+];
+const CAL_PERIODS=[
+  ['dead','Feb 2 – Mar 1','Dead period','No in-person contact, on or off campus. No official/unofficial visits.'],
+  ['quiet','Mar 2 – Apr 14','Quiet period','In-person contact only on the school’s campus. No off-campus contact or evaluations.'],
+  ['dead','May 24 – 27','Dead period','Spring recruiting pause — no in-person contact.'],
+  ['quiet','May 28 – Jun 21','Quiet period','On-campus contact only.'],
+  ['dead','Jun 22 – Jul 31','Dead period','Primary summer dead period before fall camps begin.'],
+  ['eval','Evaluation periods','Off-campus, no contact','Coaches may assess academics and ability, but cannot have in-person contact off-campus.']
+];
+function calRow([tag,d,t,desc]){const labels={dead:'Dead',quiet:'Quiet',eval:'Eval',go:'Go'};return '<div class="row"><div class="d">'+d+'</div><div><span class="tag tag-'+tag+'">'+labels[tag]+'</span><br><b>'+t+'</b><br><span style="color:var(--muted);font-size:13px">'+desc+'</span></div></div>'}
+$('calComm').innerHTML=CAL_COMM.map(calRow).join('');
+$('calPeriods').innerHTML=CAL_PERIODS.map(calRow).join('');
+
+/* ================= PRICING ================= */
+const PLANS=[
+  {nm:'Free',price:'$0',per:'',tagline:'See where you stand.',feat:false,cta:'Current plan',items:[
+    ['Measurables → recruiting tier match',0],['100m → 40 conversion',0],['Position benchmark breakdown',0],['Build your recruiting profile + bio',0],['Playbook: social media + recruiting calendar',0]]},
+  {nm:'Pro',price:'$29',per:'/mo',tagline:'Get organized and discoverable.',feat:true,cta:'Choose Pro',items:[
+    ['Everything in Free',0],['Saved profile in the cloud database',1],['Matched program shortlist by region & conference',1],['X / Twitter handles of every matched program',1],['Shareable public profile link for coaches',1]]},
+  {nm:'Elite',price:'$59',per:'/mo',tagline:'Put your name in front of coaches.',feat:false,cta:'Choose Elite',items:[
+    ['Everything in Pro',0],['Automated coach email outreach',1],['Auto-send profile updates to matching teams',1],['Recruiting-calendar alerts (contact windows open)',1],['Priority matching + outreach analytics',1]]}
+];
+$('tiers').innerHTML=PLANS.map(p=>'<div class="tier'+(p.feat?' feat':'')+'"><div class="nm">'+p.nm+'</div><div class="price">'+p.price+'<small>'+p.per+'</small></div><div class="tagline">'+p.tagline+'</div><ul>'+p.items.map(([t,lock])=>'<li'+(lock?' class="lock"':'')+'>'+t+'</li>').join('')+'</ul><button class="pick" data-plan="'+p.nm+'">'+p.cta+'</button></div>').join('');
+$('tiers').addEventListener('click',e=>{const b=e.target.closest('button[data-plan]');if(!b)return;const plan=b.dataset.plan;if(plan==='Free'){alert('You’re on the Free plan — full access to matching, profile, and the playbook.');}else{alert(plan+' ($'+(plan==='Pro'?29:59)+'/mo)\n\nPaid plans unlock automated matching, X handles, and coach outreach. Billing + automation connect through the backend (Supabase + Stripe + email/X API) — coming next. This preview shows exactly what you’ll get.');}});
+
+/* ================= INIT ================= */
+(function init(){const p=loadProfile();if(p){fillProfileForm(p);renderProfile(p);prefillAnalyze(p)}$('results').style.display='none';})();
 </script>
 </body>
 </html>
