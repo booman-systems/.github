@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gridiron Match — Football Recruiting Profile Engine</title>
+<style>
+  :root{
+    --bg:#0b0b0c; --panel:#141416; --panel2:#1b1b1e; --line:#2a2a2e;
+    --gold:#e8c252; --gold-dim:#d4af37; --ink:#f4f1e8; --muted:#9a9a9f;
+    --good:#3ecf8e; --warn:#e8c252; --bad:#e0544a;
+    --t0:#e8c252; --t1:#cdb56a; --t2:#9ec5d4; --t3:#c9a3d4; --t4:#6b6b70;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:28px 18px 80px}
+  header.hero{text-align:center;padding:18px 0 10px}
+  .hero h1{
+    font-size:clamp(30px,7vw,52px); margin:0; letter-spacing:1px; line-height:1.02;
+    font-weight:800; text-transform:uppercase;
+  }
+  .hero h1 .arrow{color:var(--gold)}
+  .hero .sub{color:var(--muted);text-transform:uppercase;letter-spacing:3px;font-size:12px;margin-top:10px}
+  .hero .tag{color:var(--gold);font-weight:700;margin-top:14px;font-size:15px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:22px}
+  .card h2{margin:0 0 4px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+  .card .hint{color:var(--muted);font-size:13px;margin:0 0 16px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  input,select{
+    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    border-radius:9px;padding:11px 12px;font-size:15px;outline:none;
+  }
+  input:focus,select:focus{border-color:var(--gold-dim)}
+  .twin{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .seg{display:flex;gap:6px;margin-bottom:8px}
+  .seg button{
+    flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--muted);
+    padding:8px;border-radius:8px;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px
+  }
+  .seg button.active{background:var(--gold);color:#1a1a1a;border-color:var(--gold);font-weight:700}
+  .optnote{color:var(--muted);font-size:11px;margin-top:4px}
+
+  .cta{
+    margin-top:20px;width:100%;background:var(--gold);color:#161616;border:none;
+    padding:15px;border-radius:10px;font-size:16px;font-weight:800;letter-spacing:1px;
+    text-transform:uppercase;cursor:pointer
+  }
+  .cta:hover{background:var(--gold-dim)}
+
+  /* results */
+  #results{display:none}
+  .verdict{text-align:center;padding:26px 18px;border-radius:14px;border:1px solid var(--line);
+    background:linear-gradient(180deg,#1a1a1d,#121214)}
+  .verdict .lvl{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .verdict .tier{font-size:clamp(26px,6vw,40px);font-weight:800;margin:8px 0 4px;text-transform:uppercase}
+  .verdict .desc{color:var(--muted);font-size:14px;max-width:560px;margin:6px auto 0}
+  .score-bar{height:10px;background:var(--panel2);border-radius:6px;margin:18px auto 4px;max-width:520px;overflow:hidden}
+  .score-bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px}
+  th,td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line)}
+  th{color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-size:11px;font-weight:700}
+  td.metric{text-align:left;font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:12px}
+  td.you{font-weight:800}
+  .cell-hit{background:rgba(232,194,82,.14);border-radius:6px;color:var(--gold);font-weight:800}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .pill{background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:6px 13px;font-size:13px}
+  .pill b{color:var(--gold)}
+
+  .next h3,.traits h3,.schools h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+  .gap-list{margin:0;padding-left:18px;color:var(--ink);font-size:14px}
+  .gap-list li{margin:5px 0}
+  .gap-list .ok{color:var(--good)}
+  .gap-list .need{color:var(--warn)}
+
+  .schools .placeholder{background:var(--panel2);border:1px dashed var(--line);border-radius:10px;padding:16px;color:var(--muted);font-size:13px}
+  .schools .sch{display:flex;justify-content:space-between;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:14px}
+  .schools .sch:last-child{border-bottom:none}
+  .schools .sch .conf{color:var(--muted);font-size:12px}
+
+  .footer-note{color:var(--muted);font-size:12px;margin-top:24px;text-align:center;line-height:1.7}
+  .factors{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+  .factors span{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 9px;letter-spacing:.5px}
+  .disclaimer{font-size:11px;color:#6b6b70;margin-top:18px;text-align:center;max-width:640px;margin-left:auto;margin-right:auto}
+  .err{color:var(--bad);font-size:13px;margin-top:10px;display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>Gridiron <span class="arrow">Match</span></h1>
+    <div class="sub">Football Recruiting Profile Engine</div>
+    <div class="tag">Enter your measurables &nbsp;→&nbsp; find the level you project to</div>
+  </header>
+
+  <!-- INPUT -->
+  <section class="card" id="inputCard">
+    <h2>Your Combine Measurables</h2>
+    <p class="hint">Pick your position, drop in your numbers, and we’ll project the recruiting tier you currently profile for — plus exactly what to improve to climb.</p>
+
+    <div class="grid">
+      <div style="grid-column:1/-1">
+        <label for="pos">Position</label>
+        <select id="pos">
+          <option value="QB">Quarterback (QB)</option>
+          <option value="RB">Running Back (RB)</option>
+          <option value="WR">Wide Receiver (WR)</option>
+          <option value="TE">Tight End (TE)</option>
+          <option value="OL">Offensive Line (OL)</option>
+          <option value="DL">Defensive Line (DL)</option>
+          <option value="LB">Linebacker (LB)</option>
+          <option value="DB">Defensive Back (DB)</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Height</label>
+        <div class="twin">
+          <input id="ft" type="number" inputmode="numeric" placeholder="ft" min="4" max="7" />
+          <input id="in" type="number" inputmode="numeric" placeholder="in" min="0" max="11" />
+        </div>
+      </div>
+
+      <div>
+        <label for="wt">Weight (lbs)</label>
+        <input id="wt" type="number" inputmode="numeric" placeholder="e.g. 195" />
+      </div>
+
+      <div>
+        <label>Speed</label>
+        <div class="seg" id="speedToggle">
+          <button type="button" data-mode="forty" class="active">40-yd dash</button>
+          <button type="button" data-mode="hundred">100m time</button>
+        </div>
+        <input id="speed" type="number" step="0.01" inputmode="decimal" placeholder="e.g. 4.55" />
+        <div class="optnote" id="speedNote">Enter your hand/laser 40 time in seconds.</div>
+      </div>
+
+      <div>
+        <label for="bench">Bench Press (lbs) <span style="text-transform:none">— optional</span></label>
+        <input id="bench" type="number" inputmode="numeric" placeholder="e.g. 275" />
+      </div>
+
+      <div>
+        <label for="squat">Squat (lbs) <span style="text-transform:none">— optional</span></label>
+        <input id="squat" type="number" inputmode="numeric" placeholder="e.g. 405" />
+      </div>
+    </div>
+
+    <button class="cta" id="analyze">Analyze My Profile</button>
+    <div class="err" id="err"></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="card">
+      <div class="verdict">
+        <div class="lvl">Your projected recruiting level</div>
+        <div class="tier" id="rTier">—</div>
+        <div class="desc" id="rDesc"></div>
+        <div class="score-bar"><i id="rBar" style="width:0%"></i></div>
+        <div class="lvl" id="rScore" style="margin-top:4px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Measurables Breakdown</h2>
+      <p class="hint" id="bdHint"></p>
+      <div style="overflow-x:auto">
+        <table id="breakTable"></table>
+      </div>
+      <div class="pills" id="convPill" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card next">
+      <h3>How to climb a tier</h3>
+      <div id="nextUp"></div>
+    </div>
+
+    <div class="card traits">
+      <h3 id="traitTitle">What recruiters watch at your position</h3>
+      <div class="pills" id="traitPills"></div>
+    </div>
+
+    <div class="card schools">
+      <h3>Target schools</h3>
+      <div id="schoolBox"></div>
+    </div>
+
+    <div class="footer-note">
+      <strong style="color:var(--ink)">Recruiters look at more than measurables.</strong>
+      <div class="factors">
+        <span>🎬 Film — your best tool</span>
+        <span>📈 Production — stats + impact</span>
+        <span>🏆 Competition level</span>
+        <span>💪 Coachability</span>
+        <span>🎓 Academics — eligibility is key</span>
+      </div>
+      <div class="disclaimer">
+        Projections are based on published position-by-position size/speed/strength benchmarks for each
+        recruiting tier and are a guideline, not a guarantee. Film, production, and academics drive real offers.
+      </div>
+    </div>
+
+    <button class="cta" id="again" style="margin-top:24px">Edit My Numbers</button>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   GRIDIRON MATCH — recruiting tier engine
+   Data source: published position benchmarks across 4 tiers.
+   ============================================================ */
+
+// Tier definitions (index 0 = highest level)
+const TIERS = [
+  { key:'P5',  label:'FBS Power 5',                 color:'var(--t0)', desc:'Strict measurables, elite competition. The top of the recruiting pyramid.' },
+  { key:'G5',  label:'FBS Group of 5 / High FCS',   color:'var(--t1)', desc:'Strong measurables and production. Highly competitive scholarship football.' },
+  { key:'D2H', label:'Low FCS / High D2 / High NAIA', color:'var(--t2)', desc:'Solid measurables and production. Great opportunities to play and develop.' },
+  { key:'D3',  label:'Low D2 / NAIA / Division III', color:'var(--t3)', desc:'More flexibility on measurables — production, fit, and coachability lead.' },
+];
+const DEV_TIER = { label:'Developmental / JUCO Route', color:'var(--t4)',
+  desc:'Your current numbers sit below the listed college tiers. The JUCO route, a prep year, or a focused training block can change that fast — measurables improve.' };
+
+// height helpers
+function inches(ft, inch){ return ft*12 + inch; }
+function fmtHeight(tot){ return Math.floor(tot/12) + "'" + (tot%12) + '"'; }
+
+// Per position: 4 tiers, each [heightInches, weight, forty, bench, squat]
+const POS = {
+  QB:{ name:'Quarterback', traits:['Arm strength & accuracy','Decision making','Leadership / IQ'],
+    rows:[ [inches(6,4),220,4.5,260,425],[inches(6,2),200,4.6,250,385],[inches(6,0),200,4.7,225,345],[inches(5,10),180,4.8,205,315] ] },
+  RB:{ name:'Running Back', traits:['Burst & acceleration','Vision','Balance & contact strength'],
+    rows:[ [inches(6,0),210,4.4,280,390],[inches(5,11),195,4.5,270,375],[inches(5,10),175,4.6,265,350],[inches(5,9),160,4.7,260,340] ] },
+  WR:{ name:'Wide Receiver', traits:['Speed & separation','Route running','Hands'],
+    rows:[ [inches(6,2),190,4.5,235,315],[inches(6,0),175,4.6,225,295],[inches(5,10),165,4.6,205,275],[inches(5,8),150,4.7,200,265] ] },
+  TE:{ name:'Tight End', traits:['Blocking + receiving','Size matchup','Hands'],
+    rows:[ [inches(6,4),230,4.7,300,440],[inches(6,3),220,4.8,285,420],[inches(6,2),215,4.85,275,415],[inches(6,1),205,4.9,270,405] ] },
+  OL:{ name:'Offensive Line', traits:['Size & wingspan','Strength','Footwork'],
+    rows:[ [inches(6,5),280,5.0,320,450],[inches(6,3),270,5.2,305,425],[inches(6,2),260,5.3,300,410],[inches(6,1),240,5.4,295,405] ] },
+  DL:{ name:'Defensive Line', traits:['Explosion off the line','Strength & leverage','Pass rush moves'],
+    rows:[ [inches(6,4),260,4.8,315,450],[inches(6,3),240,4.9,305,415],[inches(6,2),230,4.8,305,405],[inches(6,1),220,4.9,295,395] ] },
+  LB:{ name:'Linebacker', traits:['Speed & instincts','Tackling','Coverage ability'],
+    rows:[ [inches(6,2),220,4.6,315,445],[inches(6,1),210,4.65,300,435],[inches(6,0),200,4.7,295,405],[inches(5,10),190,4.75,275,395] ] },
+  DB:{ name:'Defensive Back', traits:['Speed (non-negotiable)','Hips / change of direction','Ball skills'],
+    rows:[ [inches(6,0),185,4.5,270,405],[inches(6,0),180,4.6,250,380],[inches(5,10),175,4.65,250,295],[inches(5,9),160,4.7,240,380] ] },
+};
+
+// Metric config: which column, label, units, whether lower is better, weight in overall score
+const METRICS = [
+  { key:'height', col:0, label:'Height',  fmt:v=>fmtHeight(v),         lower:false, weight:1.0,  required:true  },
+  { key:'weight', col:1, label:'Weight',  fmt:v=>v+' lbs',             lower:false, weight:1.0,  required:true  },
+  { key:'forty',  col:2, label:'40-yd',   fmt:v=>v.toFixed(2)+'s',     lower:true,  weight:1.6,  required:true  },
+  { key:'bench',  col:3, label:'Bench',   fmt:v=>v+' lbs',             lower:false, weight:0.6,  required:false },
+  { key:'squat',  col:4, label:'Squat',   fmt:v=>v+' lbs',             lower:false, weight:0.6,  required:false },
+];
+
+/* ---- 100m -> 40-yd conversion (from published reference chart) ---- */
+const CONV = [[10.3,4.23],[10.4,4.27],[10.5,4.31],[10.6,4.35],[10.7,4.39],[10.8,4.43],[10.9,4.47],
+  [11.0,4.50],[11.1,4.54],[11.2,4.58],[11.3,4.62],[11.4,4.66],[11.5,4.70],[11.6,4.74],[11.7,4.78],[11.8,4.81]];
+function hundredToForty(t){
+  if(t<=CONV[0][0]) { // extrapolate down
+    const s=(CONV[1][1]-CONV[0][1])/(CONV[1][0]-CONV[0][0]); return +(CONV[0][1]+s*(t-CONV[0][0])).toFixed(2);
+  }
+  for(let i=0;i<CONV.length-1;i++){
+    const [a,fa]=CONV[i],[b,fb]=CONV[i+1];
+    if(t>=a&&t<=b){ const r=(t-a)/(b-a); return +(fa+r*(fb-fa)).toFixed(2); }
+  }
+  const n=CONV.length; const s=(CONV[n-1][1]-CONV[n-2][1])/(CONV[n-1][0]-CONV[n-2][0]);
+  return +(CONV[n-1][1]+s*(t-CONV[n-1][0])).toFixed(2);
+}
+
+/* ---- best tier met for one metric (returns 0..3, or 4 = below all) ---- */
+function tierFor(value, thresholds, lower){
+  for(let i=0;i<4;i++){
+    const meets = lower ? value<=thresholds[i] : value>=thresholds[i];
+    if(meets) return i;
+  }
+  return 4;
+}
+
+/* ============================================================
+   SCHOOLS — extension point (named-school phase, plug in later)
+   Provide arrays keyed by tier.key and (optionally) position.
+   When populated, the UI lists real programs instead of the
+   tier-level guidance placeholder.
+   ============================================================ */
+const SCHOOLS = {
+  // Example shape — leave empty until a real dataset is sourced:
+  // P5:  [{ name:'Example State', conf:'SEC' }, ...],
+  // G5:  [...], D2H: [...], D3: [...]
+};
+
+/* ---------------------- UI WIRING ---------------------- */
+let speedMode='forty';
+const $=id=>document.getElementById(id);
+
+$('speedToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  speedMode=b.dataset.mode;
+  [...$('speedToggle').children].forEach(x=>x.classList.toggle('active',x===b));
+  if(speedMode==='forty'){ $('speed').placeholder='e.g. 4.55'; $('speedNote').textContent='Enter your hand/laser 40 time in seconds.'; }
+  else { $('speed').placeholder='e.g. 11.20'; $('speedNote').textContent='Enter your 100m time — we convert it to a 40 estimate.'; }
+});
+
+$('analyze').addEventListener('click',run);
+$('again').addEventListener('click',()=>{ $('results').style.display='none'; $('inputCard').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); });
+
+function showErr(m){ const e=$('err'); e.textContent=m; e.style.display='block'; }
+
+function run(){
+  $('err').style.display='none';
+  const pos=$('pos').value;
+  const ft=parseInt($('ft').value,10), inch=parseInt($('in').value,10);
+  const wt=parseFloat($('wt').value);
+  const rawSpeed=parseFloat($('speed').value);
+  const bench=$('bench').value===''?null:parseFloat($('bench').value);
+  const squat=$('squat').value===''?null:parseFloat($('squat').value);
+
+  if(isNaN(ft)||isNaN(inch)){ return showErr('Enter your height (feet and inches).'); }
+  if(isNaN(wt)||wt<=0){ return showErr('Enter your weight in pounds.'); }
+  if(isNaN(rawSpeed)||rawSpeed<=0){ return showErr('Enter your speed (40-yd dash or 100m time).'); }
+
+  const heightTot=inches(ft,inch);
+  let forty=rawSpeed, converted=null;
+  if(speedMode==='hundred'){ forty=hundredToForty(rawSpeed); converted={from:rawSpeed,to:forty}; }
+
+  const vals={ height:heightTot, weight:wt, forty:forty, bench:bench, squat:squat };
+  const data=POS[pos];
+
+  // per-metric tier placement + weighted overall
+  let wSum=0, wAcc=0;
+  const breakdown=METRICS.map(m=>{
+    const v=vals[m.key];
+    const provided = v!==null && !isNaN(v);
+    const thresholds = data.rows.map(r=>r[m.col]);
+    const t = provided ? tierFor(v,thresholds,m.lower) : null;
+    if(provided){ wSum+=m.weight; wAcc += Math.min(t,4)*m.weight; }
+    return { ...m, value:v, provided, thresholds, tier:t };
+  });
+
+  const overallRaw = wAcc/wSum;            // 0 (P5) .. 4 (below all)
+  const overallIdx = Math.round(overallRaw);
+  const tier = overallIdx>=4 ? DEV_TIER : TIERS[overallIdx];
+
+  render(pos,data,breakdown,overallIdx,overallRaw,tier,converted);
+
+  $('inputCard').style.display='none';
+  $('results').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function render(pos,data,breakdown,overallIdx,overallRaw,tier,converted){
+  // verdict
+  $('rTier').textContent=tier.label;
+  $('rTier').style.color=tier.color;
+  $('rDesc').textContent=tier.desc;
+  // score: 100% at P5, scaling down across tiers
+  const pct=Math.max(4, Math.round((1-(overallRaw/4))*100));
+  $('rBar').style.width=pct+'%';
+  $('rScore').textContent='Profile strength: '+pct+'/100';
+
+  // breakdown table
+  $('bdHint').textContent='Where each of your numbers lands against '+data.name+' benchmarks. Highlighted cell = the highest tier that number reaches.';
+  const tEl=$('breakTable');
+  let head='<tr><th style="text-align:left">Metric</th><th>You</th>'+TIERS.map(t=>'<th>'+t.label.replace(/ \/ /g,'/<wbr>')+'</th>').join('')+'<th>Your tier</th></tr>';
+  let body='';
+  breakdown.forEach(m=>{
+    if(!m.provided){
+      body+='<tr><td class="metric">'+m.label+'</td><td style="color:var(--muted)">—</td>'+
+        m.thresholds.map(v=>'<td style="color:var(--muted)">'+m.fmt(v)+'</td>').join('')+
+        '<td style="color:var(--muted)">n/a</td></tr>';
+      return;
+    }
+    let cells='';
+    for(let i=0;i<4;i++){
+      const hit = m.tier===i;
+      cells+='<td class="'+(hit?'cell-hit':'')+'">'+m.fmt(m.thresholds[i])+'</td>';
+    }
+    const badge = m.tier>=4
+      ? '<span class="badge" style="background:var(--t4);color:#111">Below</span>'
+      : '<span class="badge" style="background:'+TIERS[m.tier].color+';color:#111">'+TIERS[m.tier].key+'</span>';
+    body+='<tr><td class="metric">'+m.label+'</td><td class="you">'+m.fmt(m.value)+'</td>'+cells+'<td>'+badge+'</td></tr>';
+  });
+  tEl.innerHTML=head+body;
+
+  // conversion pill
+  $('convPill').innerHTML = converted
+    ? '<span class="pill">100m <b>'+converted.from.toFixed(2)+'s</b> &nbsp;→&nbsp; est. 40-yd <b>'+converted.to.toFixed(2)+'s</b></span>'
+    : '';
+
+  // how to climb
+  const nextIdx = overallIdx-1; // tier above (lower index)
+  const nu=$('nextUp');
+  if(overallIdx<=0){
+    nu.innerHTML='<p style="margin:0;color:var(--good);font-weight:700">You already profile at the top tier (Power 5) on your measurables. Now it’s about film, production, and competition level. Keep your numbers and let the tape talk.</p>';
+  } else {
+    const target = TIERS[nextIdx];
+    const gaps=[];
+    breakdown.forEach(m=>{
+      if(!m.provided) return;
+      const need=m.thresholds[nextIdx];
+      const meets = m.lower ? m.value<=need : m.value>=need;
+      if(meets){
+        gaps.push('<li class="ok">✓ '+m.label+': '+m.fmt(m.value)+' already meets the '+target.label+' mark ('+m.fmt(need)+')</li>');
+      } else {
+        const diff = m.lower ? (m.value-need) : (need-m.value);
+        let how;
+        if(m.key==='forty') how='cut '+diff.toFixed(2)+'s off your 40 (to '+m.fmt(need)+')';
+        else if(m.key==='height') how='height is fixed — offset it with elite speed/production';
+        else how='add '+Math.round(diff)+' lbs of '+(m.key==='weight'?'good weight':'strength')+' (to '+m.fmt(need)+')';
+        gaps.push('<li class="need">→ '+m.label+': '+how+'</li>');
+      }
+    });
+    nu.innerHTML='<p style="margin:0 0 8px">To project at <b style="color:'+target.color+'">'+target.label+'</b>, here’s the gap:</p><ul class="gap-list">'+gaps.join('')+'</ul>';
+  }
+
+  // traits
+  $('traitTitle').textContent='What recruiters watch at '+data.name;
+  $('traitPills').innerHTML=data.traits.map(t=>'<span class="pill">'+t+'</span>').join('');
+
+  // schools (extension point)
+  const tierKey = overallIdx>=4 ? null : TIERS[overallIdx].key;
+  const list = tierKey && SCHOOLS[tierKey] ? SCHOOLS[tierKey] : null;
+  const sb=$('schoolBox');
+  if(list && list.length){
+    sb.innerHTML=list.map(s=>'<div class="sch"><span>'+s.name+'</span><span class="conf">'+(s.conf||'')+'</span></div>').join('');
+  } else {
+    sb.innerHTML='<div class="placeholder">Based on your profile, focus your outreach on <b style="color:'+tier.color+'">'+tier.label+'</b> programs. '+
+      'A named, searchable school list for this tier (by conference, region, and academic fit) plugs in here in the next phase — '+
+      'reach out to those programs’ recruiting coordinators with your film and a verified test date.</div>';
+  }
+}
+</script>
+</body>
+</html>
