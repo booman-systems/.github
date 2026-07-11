@@ -40,20 +40,25 @@ export default async function ItemsPage({
       {(items as Item[] | null)?.length ? (
         <ul className="space-y-2">
           {(items as Item[]).map((item) => (
-            <li key={item.sku} className="card flex items-center justify-between">
-              <div>
-                <div className="font-semibold">
-                  {item.brand ?? 'Unbranded'} · {item.garment_type.replaceAll('_', ' ').toLowerCase()}
-                  {item.tag_size ? ` · ${item.tag_size}` : ''}
+            <li key={item.sku}>
+              <Link
+                href={`/items/${item.sku}`}
+                className="card flex items-center justify-between hover:border-amber-600"
+              >
+                <div>
+                  <div className="font-semibold">
+                    {item.brand ?? 'Unbranded'} · {item.garment_type.replaceAll('_', ' ').toLowerCase()}
+                    {item.tag_size ? ` · ${item.tag_size}` : ''}
+                  </div>
+                  <div className="text-sm text-stone-500">
+                    SKU {item.sku} · bin {item.bin_code}
+                    {item.over_poshmark_limit ? ' · ⚠ >5 lb' : ''}
+                  </div>
                 </div>
-                <div className="text-sm text-stone-500">
-                  SKU {item.sku} · bin {item.bin_code}
-                  {item.over_poshmark_limit ? ' · ⚠ >5 lb' : ''}
-                </div>
-              </div>
-              <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-medium text-stone-700">
-                {item.status.replaceAll('_', ' ')}
-              </span>
+                <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-medium text-stone-700">
+                  {item.status.replaceAll('_', ' ')}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
