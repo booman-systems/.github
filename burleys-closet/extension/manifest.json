@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Burley's Closet — Poshmark Bridge",
+  "version": "0.1.0",
+  "description": "Fills Poshmark listing forms from the Burley's Closet queue and confirms delists. Human-in-the-loop by design: YOU press Publish.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://poshmark.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Burley's Closet"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://poshmark.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

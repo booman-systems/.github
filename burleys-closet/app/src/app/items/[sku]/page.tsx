@@ -6,6 +6,7 @@ import { CONDITION_LABELS } from '@/lib/domain/guardrails';
 import type { Flaw, Item, ItemStatus } from '@/lib/domain/types';
 import PhotoUploader from './photo-uploader';
 import StatusActions from './status-actions';
+import ListingPanel, { type ListingRow } from './listing-panel';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,9 +49,17 @@ export default async function ItemPage({
     }),
   );
 
+  const { data: listingRows } = await db
+    .from('listings')
+    .select('platform, state, title, description, price_cents, offer_floor_cents, external_id, specifics')
+    .eq('item_sku', sku);
+
   const fields = requiredMeasurements(typedItem.garment_type);
   const flaws = (typedItem.flaws ?? []) as Flaw[];
-  const transitions = TRANSITIONS[typedItem.status as ItemStatus] ?? [];
+  // Listing flow has its own buttons; keep only non-listing transitions here.
+  const transitions = (TRANSITIONS[typedItem.status as ItemStatus] ?? []).filter(
+    (t) => !['DRAFTED', 'REVIEW', 'LISTED'].includes(t),
+  );
 
   return (
     <div className="space-y-5">
@@ -153,6 +162,15 @@ export default async function ItemPage({
           </>
         )}
       </section>
+
+      {/* Listing workflow: AI drafts, review, publish */}
+      {!['INTAKE'].includes(typedItem.status) && (
+        <ListingPanel
+          sku={sku}
+          status={typedItem.status}
+          listings={(listingRows ?? []) as ListingRow[]}
+        />
+      )}
 
       {/* Pipeline actions */}
       <StatusActions sku={sku} transitions={transitions} />

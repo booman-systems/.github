@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: system-ui, sans-serif; width: 360px; margin: 0; padding: 12px; background: #fafaf9; color: #1c1917; }
+    h1 { font-size: 15px; margin: 0 0 8px; color: #92400e; }
+    h2 { font-size: 13px; margin: 12px 0 4px; }
+    input { width: 100%; box-sizing: border-box; padding: 6px 8px; margin: 2px 0; border: 1px solid #d6d3d1; border-radius: 6px; font-size: 12px; }
+    button { background: #b45309; color: white; border: 0; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; margin: 2px 2px 2px 0; }
+    button.secondary { background: white; color: #44403c; border: 1px solid #d6d3d1; }
+    .item { border: 1px solid #e7e5e4; border-radius: 8px; padding: 8px; margin: 6px 0; background: white; }
+    .item .title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+    .muted { color: #78716c; font-size: 11px; }
+    .alert { background: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; border-radius: 8px; padding: 8px; font-size: 12px; margin: 6px 0; }
+    #status { font-size: 11px; color: #78716c; margin-top: 6px; min-height: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Burley's Closet</h1>
+
+  <div id="setup">
+    <h2>Connect to your app</h2>
+    <input id="appUrl" placeholder="https://your-app.vercel.app" />
+    <input id="secret" type="password" placeholder="Bridge secret" />
+    <button id="save">Save</button>
+  </div>
+
+  <div id="delistSection" style="display:none">
+    <h2>⚠ DELIST NOW (sold on eBay)</h2>
+    <div id="delistList"></div>
+  </div>
+
+  <div id="queueSection" style="display:none">
+    <h2>Ready to list on Poshmark</h2>
+    <div class="muted">Open poshmark.com/create-listing, then hit Fill. You pick category &amp; size, you press Publish.</div>
+    <div id="queueList"></div>
+  </div>
+
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

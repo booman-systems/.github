@@ -23,9 +23,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="text-lg font-bold tracking-tight text-amber-800">
               Burley&apos;s Closet
             </Link>
-            <nav className="flex gap-4 text-sm font-medium text-stone-600">
+            <nav className="flex gap-3 text-sm font-medium text-stone-600">
               <Link href="/items" className="hover:text-amber-800">Items</Link>
               <Link href="/items/new" className="hover:text-amber-800">+ Intake</Link>
+              <Link href="/poshmark" className="hover:text-amber-800">Posh</Link>
+              <Link href="/packing" className="hover:text-amber-800">Pack</Link>
+              <Link href="/money" className="hover:text-amber-800">Money</Link>
+              <Link href="/settings" className="hover:text-amber-800">⚙</Link>
             </nav>
           </div>
         </header>
